@@ -1,0 +1,67 @@
+.address-form__content {
+    margin: 0 auto;
+    padding: 30px 15px;
+    max-width: 1230px;
+}
+
+.address-form__heading {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;  /* 例: 最大幅を設定して、フォームが広がりすぎないように */
+    text-align: center;
+}
+
+.form__group {
+    margin-bottom: 15px; /* 少し余裕を持たせる */
+}
+
+.form__group-title {
+    text-align: left;
+}
+
+.form__label {
+    font-weight: bold; /* 太字 */
+    display: block; /* labelをブロック要素にして、下のフォームと重ならないように */
+    margin-bottom: 5px; /* labelとフォームの間に少し余裕を追加 */
+}
+
+.form__error {
+    height: 20px;
+    color: #ff0000;
+    text-align: left;
+    font-size: 0.9rem; /* エラーメッセージを少し小さく */
+}
+
+.form__input--text input,
+.form__input {
+    padding: 10px;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    appearance: none;
+}
+
+.form__button {
+    margin-top: 20px;
+}
+
+.form__button-submit {
+    padding: 10px;
+    width: 100%;  /* ボタンがフォームの幅に合わせて広がる */
+    height: 50px;
+    border: none;
+    border-radius: 3px;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form__button-submit:hover {
+    background: #333;
+}

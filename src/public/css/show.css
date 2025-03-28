@@ -1,0 +1,142 @@
+/* コンテナ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 商品表示エリア */
+.product-show {
+    display: flex;
+    gap: 30px; /* 画像と詳細間の隙間 */
+}
+
+/* 商品画像エリア */
+.product-img {
+    flex: 0 0 40%; /* 画像部分は40% */
+    max-width: 400px;
+}
+
+.product-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* 商品詳細エリア */
+.product-details {
+    flex: 1; /* 残りのスペースを占める */
+}
+
+/* 商品名 */
+.product-details h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ブランド名 */
+.brand {
+    font-size: 18px;
+    color: #777;
+}
+
+/* 価格 */
+.price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* いいねボタン */
+.like-section,
+.comment-section {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* アイコン間の間隔 */
+}
+
+.like-btn,
+.comment-section img {
+    display: inline-block;
+}
+
+/* 購入ボタン */
+.buy-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.buy-btn:hover {
+    background-color: #218838;
+}
+
+/* 商品説明エリア */
+.product-description {
+    margin-top: 30px;
+}
+
+/* 商品情報エリア */
+.product-info {
+    margin-top: 30px;
+}
+
+/* コメントエリア */
+.comments {
+    margin-top: 30px;
+}
+
+/* コメントリスト */
+.comment-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.comment-list li {
+    margin-bottom: 10px;
+}
+
+/* コメントフォーム */
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* レスポンシブ対応: 画面幅が小さい場合 */
+@media (max-width: 768px) {
+    .product-show {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-img {
+        flex: 0 0 100%; /* 画像が画面幅全体を占める */
+        margin-bottom: 20px;
+    }
+
+    .product-details {
+        flex: 0 0 100%; /* 商品詳細も縦に並べる */
+    }
+}

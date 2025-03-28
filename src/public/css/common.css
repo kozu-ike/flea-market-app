@@ -1,0 +1,71 @@
+/* ヘッダー全体 */
+.header {
+    background: #000;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ヘッダー内のレイアウト */
+.header__inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ロゴ */
+.header-title img {
+    height: 36px;
+}
+
+/* 検索フォーム */
+.search-form {
+    flex-grow: 1; /* 幅いっぱいに広げる */
+    max-width: 500px;
+    margin: 0 auto; /* 中央配置 */
+}
+
+.search-form__keyword {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* ナビゲーション */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ログイン・マイページボタン（枠なし・白文字） */
+.header-nav__button {
+    background: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    padding: 5px 10px;
+}
+
+/* 出品ボタン（枠あり） */
+.listing .listing-button {
+    padding: 8px 15px;
+    background-color: #fff;
+    color: #000; /* 文字を黒にして見えるように */
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 1px solid #000; /* 枠線を追加 */
+}
+
+.listing .listing-button:hover {
+    background-color: #e64a19;
+    color: #fff; /* ホバー時は文字を白に */
+    border: 1px solid #e64a19;
+}
