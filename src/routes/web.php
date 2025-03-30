@@ -31,9 +31,9 @@ Route::get('/email/verify/{id}', [AuthController::class, 'verifyEmail']);
 
 // 🔹 マイページ関連（認証必須）
 Route::middleware('auth')->group(function () {
-    Route::get('/mypage', [UserController::class, 'showProfile'])->name('mypage');
+    Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');
     Route::get('/mypage/profile', [UserController::class, 'setupProfile'])->name('profile.setup');
-    Route::put('/mypage/profile', [UserController::class, 'updateProfile']);
+    Route::post('/mypage/profile', [UserController::class, 'updateProfile'])->name('updateProfile');
 
     // 購入履歴
     Route::get('/mypage/purchases', [UserController::class, 'showPurchasedItems']);
@@ -53,17 +53,21 @@ Route::middleware('auth')->group(function () {
     // 商品出品
     Route::get('/sell', [ExhibitionController::class, 'create']);
     Route::post('/sell', [ExhibitionController::class, 'store']);
-});
-
-// 🔹 商品購入関連（認証必須）
-Route::middleware('auth')->group(function () {
-    Route::get('/purchase/{id}', [PurchaseController::class, 'show'])->name('purchase');
-    Route::post('/purchase/{id}', [PurchaseController::class, 'store']);
 
     // 送付先住所変更
-    Route::get('/purchase/address/{id}', [PurchaseController::class, 'editAddress']);
-    Route::post('/purchase/address/{id}', [PurchaseController::class, 'updateAddress']);
+    Route::get('/purchase/{item_id}', [PurchaseController::class, 'show'])->name('purchase');
+    Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.process');
+
+    // 住所変更ページのルート
+    Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress'])->name('purchase.address');
+
+    // 住所更新処理のルート
+    Route::post('/purchase/{item_id}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+
 
     // 支払い処理
-    Route::post('/purchase/{id}/payment', [PurchaseController::class, 'processPayment']);
+    Route::post('/purchase/{item_id}/payment', [PurchaseController::class, 'processPayment']);
+
+    Route::post('/purchase/update-payment/{item_id}', [PurchaseController::class, 'updatePayment'])->name('purchase.updatePayment');
+    Route::post('/purchase/process/{item_id}', [PurchaseController::class, 'processPurchase'])->name('purchase.process');
 });

@@ -1,67 +1,143 @@
-.address-form__content {
+/* 全体のコンテナ */
+.container {
+    width: 100%;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 30px 15px;
-    max-width: 1230px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.address-form__heading {
+/* 左側の商品情報 */
+.product-show {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 商品全体の枠 */
+.product-main {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 商品画像 */
+.product-img {
+    width: 100%;
+    max-width: 180px;
+    margin: 0 auto 15px;
+}
+
+.product-img img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* 商品名 */
+.product-details h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+/* 価格 */
+.price {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 15px;
+}
+
+/* 支払い方法のセレクト */
+.payment-section {
     margin-bottom: 20px;
-    text-align: center;
 }
 
-.form {
-    margin: 0 auto;
+.payment-section select {
     width: 100%;
-    max-width: 500px;  /* 例: 最大幅を設定して、フォームが広がりすぎないように */
-    text-align: center;
-}
-
-.form__group {
-    margin-bottom: 15px; /* 少し余裕を持たせる */
-}
-
-.form__group-title {
-    text-align: left;
-}
-
-.form__label {
-    font-weight: bold; /* 太字 */
-    display: block; /* labelをブロック要素にして、下のフォームと重ならないように */
-    margin-bottom: 5px; /* labelとフォームの間に少し余裕を追加 */
-}
-
-.form__error {
-    height: 20px;
-    color: #ff0000;
-    text-align: left;
-    font-size: 0.9rem; /* エラーメッセージを少し小さく */
-}
-
-.form__input--text input,
-.form__input {
     padding: 10px;
-    width: 100%;
-    height: 40px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    appearance: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
-.form__button {
-    margin-top: 20px;
+/* 配送先 */
+.product-address {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form__button-submit {
-    padding: 10px;
-    width: 100%;  /* ボタンがフォームの幅に合わせて広がる */
-    height: 50px;
-    border: none;
-    border-radius: 3px;
-    background: #000;
-    color: #fff;
+.product-address .confirm-form__label {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.product-address .confirm-form__data {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* 変更ボタン */
+.btn-link {
+    display: inline-block;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 1rem;
     cursor: pointer;
 }
 
-.form__button-submit:hover {
-    background: #333;
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+/* 右側の購入情報 */
+.product-plan {
+    width: 30%;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 小計の価格 */
+.product-plan .price {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 10px;
+}
+
+/* 支払い方法の表示 */
+.product-plan .payment-method {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* 購入ボタン */
+.btn-submit {
+    display: block;
+    background-color: #e74c3c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #c0392b;
 }

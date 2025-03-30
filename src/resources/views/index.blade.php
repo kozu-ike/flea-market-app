@@ -22,8 +22,10 @@
                 <a href="/item/{{ $product->id }}">
                     <img src="{{ asset('storage/products/'.$product->image) }}" alt="{{ $product->name }}">
                     <p>{{ $product->name }}</p>
+                    <p>¥{{ number_format($product->price) }}</p>
+
                     @if ($product->isSoldOut())
-                    <span class="sold-label">Sold</span>
+                    <p class="sold-label">Sold</p>
                     @endif
                 </a>
             </div>

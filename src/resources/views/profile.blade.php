@@ -9,21 +9,27 @@
     <div class="address-form__heading">
         <h2>プロフィール設定</h2>
     </div>
-    <form action="{{ route('profile.setup') }}" method="POST">
+    <form action="{{ route('updateProfile') }}" method="POST">
         @csrf
-        @method('PUT') <!-- これが必要なのは、更新操作のため -->
 
 
         <!-- プロフィール画像 -->
         <div class="form__group">
-            <div class="form__group-title">
-                <label class="form__label" for="profile_image">プロフィール画像</label>
-            </div>
-            <input type="file" name="profile_image" id="profile_image" class="form__input" accept="image/*" />
-            <div class="form__error">
-                @error('profile_image')
-                {{ $message }}
-                @enderror
+            <div class="profile">
+                <div class="profile-image-container">
+                    @if(auth()->user()->profile_image)
+                    <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="プロフィール画像">
+                    @endif
+                </div>
+
+                <label for="profile_image" class="profile-image-upload">画像を選択する</label>
+                <input type="file" name="profile_image" id="profile_image" class="form__input" accept="image/*" hidden />
+
+                <div class="form__error">
+                    @error('profile_image')
+                    <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
         </div>
 
@@ -38,7 +44,7 @@
                 </div>
                 <div class="form__error">
                     @error('name')
-                    {{ $message }}
+                    <span class="error-message">{{ $message }}</span>
                     @enderror
                 </div>
             </div>
@@ -55,8 +61,7 @@
                 value="{{ old('postal_code', auth()->user()->postal_code) }}" required />
             <div class="form__error">
                 @error('postal_code')
-                {{ $message }}
-                @enderror
+                <span class="error-message">{{ $message }}</span> @enderror
             </div>
         </div>
 
@@ -68,8 +73,7 @@
             <input class="form__input" type="text" name="address" id="address" value="{{ old('address', auth()->user()->address) }}" required />
             <div class="form__error">
                 @error('address')
-                {{ $message }}
-                @enderror
+                <span class="error-message">{{ $message }}</span> @enderror
             </div>
         </div>
 
@@ -79,6 +83,10 @@
                 <label class="form__label" for="building">建物名</label>
             </div>
             <input class="form__input" type="text" name="building" id="building" value="{{ old('building', auth()->user()->building) }}" required />
+            <div class="form__error">
+                @error('building')
+                <span class="error-message">{{ $message }}</span> @enderror
+            </div>
         </div>
 
         <!-- 更新ボタン -->

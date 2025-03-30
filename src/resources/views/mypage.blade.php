@@ -1,8 +1,15 @@
+@extends('layouts.app')
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
+@endsection
+@section('content')
 <main>
     <div class="profile">
-        <img src="{{ asset('storage/' . (auth()->user()->profile_image ?? 'products/profile.png')) }}" alt="profile">
+        <div class="profile-image-container">
+            <img src="{{ asset('storage/' . (auth()->user()->profile_image ?? 'products/profile.png')) }}">
+        </div>
         <div class="profile-name">
-            {{ $profile->name }}
+            {{ auth()->user()->name }}
         </div>
         <a class="profile-change" href="{{ route('profile.setup') }}">プロフィールを編集</a>
     </div>
@@ -29,3 +36,4 @@
         </div>
     </div>
 </main>
+@endsection

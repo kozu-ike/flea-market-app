@@ -1,22 +1,33 @@
 /* コンテナのスタイル */
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1200px; /* 幅の最大値 */
     margin: 0 auto;
     padding: 20px;
 }
 
-/* 商品詳細部分 */
+/* 商品情報、配送情報を左右に分ける */
 .product-show {
     display: flex;
-    justify-content: space-between;
-    gap: 20px; /* 商品詳細と小計の間隔 */
+    justify-content: space-between; /* 左右のグループの配置 */
+    gap: 20px;
+}
+
+/* 左側グループのスタイル */
+.left-group {
+    width: 70%; /* 左側は70%の幅 */
+}
+
+/* 右側グループのスタイル */
+.right-group {
+    width: 30%; /* 右側は30%の幅 */
 }
 
 /* 商品画像のスタイル */
 .product-img {
     width: 100%;
-    max-width: 500px; /* 最大幅を設定して画像が大きくなりすぎないように */
+    max-width: 200px; /* 画像の最大幅 */
+    height: auto;
     margin-bottom: 20px;
 }
 
@@ -28,32 +39,37 @@
 
 /* 商品詳細部分 */
 .product-main {
-    flex: 1;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 商品名 */
-.product-details h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+.product-plan {
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+    gap: 20px; /* 要素間の間隔 */
 }
 
-/* 価格 */
-.price {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-bottom: 15px;
+.product-plan label {
+    display: flex;
+    justify-content: space-between; /* 横並びにする */
+    align-items: center; /* 高さを揃える */
 }
+
+.product-plan .price, 
+.product-plan .payment-method {
+    margin: 0;
+    padding: 0;
+}
+
+/* さらに間隔を開けるためのカスタムスタイル */
+.product-plan label p {
+    margin-right: 10px; /* 「商品代金」や「お支払方法」のテキストとその値の間に間隔を追加 */
+}
+
 
 /* 支払い方法のセレクトボックス */
-.payment-method__select-inner {
-    margin-bottom: 15px;
-}
-
 .payment-method__select {
     width: 100%;
     padding: 10px;
@@ -62,41 +78,28 @@
     border: 1px solid #ccc;
 }
 
-/* エラーメッセージ */
-.contact-form__error-message {
-    color: red;
-    font-size: 0.9rem;
+/* 配送情報 */
+.product-address {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 小計部分 */
 .product-plan {
-    width: 250px;
     padding: 20px;
     background-color: #ffffff;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 小計の価格表示 */
-.product-plan .price {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-bottom: 10px;
-}
-
-/* 支払い方法の表示 */
-.product-plan .payment-method {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 15px;
+    text-align: center;
 }
 
 /* 購入ボタン */
 .btn-submit {
-    display: inline-block;
-    background-color: #3498db;
+    display: block;
+    background-color: #e74c3c;
     color: white;
     padding: 12px 20px;
     border-radius: 5px;
@@ -104,47 +107,26 @@
     text-align: center;
     text-decoration: none;
     width: 100%;
-    cursor: pointer;
     border: none;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .btn-submit:hover {
-    background-color: #2980b9;
+    background-color: #c0392b;
 }
 
-/* 配送先部分 */
-.product-address {
-    margin-top: 20px;
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .product-show {
+        flex-direction: column; /* モバイル画面では縦並び */
+    }
 
-.product-address .confirm-form__label {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
+    .left-group, .right-group {
+        width: 100%; /* 両方ともフル幅に */
+    }
 
-.product-address .confirm-form__data {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-/* 変更ボタン */
-.btn-link {
-    display: inline-block;
-    color: #3498db;
-    text-decoration: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-link:hover {
-    background-color: #ecf0f1;
+    .product-img {
+        max-width: 150px; /* 商品画像を小さく */
+    }
 }

@@ -27,7 +27,8 @@ class Product extends Model
 
     public function isSoldOut()
     {
-        return $this->stock === 0;
+        // return $this->stock === 0;
+        return $this->is_sold;
     }
 
     public function category()
