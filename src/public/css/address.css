@@ -1,143 +1,125 @@
-/* 全体のコンテナ */
-.container {
-    width: 100%;
-    max-width: 1100px;
+/* 全体のスタイル */
+.address-form__content {
+    width: 50%;
     margin: 0 auto;
     padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 左側の商品情報 */
-.product-show {
-    width: 65%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* 商品全体の枠 */
-.product-main {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 商品画像 */
-.product-img {
-    width: 100%;
-    max-width: 180px;
-    margin: 0 auto 15px;
-}
-
-.product-img img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-}
-
-/* 商品名 */
-.product-details h2 {
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-}
-
-/* 価格 */
-.price {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-bottom: 15px;
-}
-
-/* 支払い方法のセレクト */
-.payment-section {
+.address-form__heading {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.payment-section select {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-/* 配送先 */
-.product-address {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.product-address .confirm-form__label {
-    font-size: 1.2rem;
+.address-form__heading h2 {
+    font-size: 24px;
     font-weight: bold;
 }
 
-.product-address .confirm-form__data {
-    font-size: 1rem;
-    color: #333;
-}
-
-/* 変更ボタン */
-.btn-link {
-    display: inline-block;
-    color: #3498db;
-    text-decoration: none;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.btn-link:hover {
-    text-decoration: underline;
-}
-
-/* 右側の購入情報 */
-.product-plan {
-    width: 30%;
-    padding: 20px;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-/* 小計の価格 */
-.product-plan .price {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #e74c3c;
-    margin-bottom: 10px;
-}
-
-/* 支払い方法の表示 */
-.product-plan .payment-method {
-    font-size: 1rem;
-    color: #333;
+/* フォームの各グループ */
+.form__group {
     margin-bottom: 15px;
 }
 
-/* 購入ボタン */
-.btn-submit {
-    display: block;
-    background-color: #e74c3c;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    text-align: center;
-    text-decoration: none;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.form__group-title {
+    margin-bottom: 5px;
 }
 
-.btn-submit:hover {
-    background-color: #c0392b;
+.form__label {
+    font-weight: bold;
+    display: block;
+}
+
+/* 入力フィールドのスタイル */
+.form__input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form__input:focus {
+    border-color: #FF5555;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 85, 85, 0.5);
+}
+
+/* エラーメッセージ */
+.form__error {
+    color: #FF5555;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* プロフィール画像のコンテナ */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* 画像とボタンの間隔を広げる */
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+/* プロフィール画像のスタイル */
+.profile-image-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.profile-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* 画像選択ボタンのスタイル */
+.profile-image-upload {
+    width: 150px;
+    height: 40px;
+    border: 2px solid #FF5555;
+    color: #FF5555;
+    padding: 10px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    background: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.profile-image-upload:hover {
+    background-color: #FF5555;
+    color: white;
+}
+
+/* 更新ボタン */
+.form__button {
+    text-align: center;
+}
+
+.form__button-submit {
+    background-color: #FF5555;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+.form__button-submit:hover {
+    background-color: #e04444;
 }
