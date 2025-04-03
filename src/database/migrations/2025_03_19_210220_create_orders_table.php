@@ -17,7 +17,6 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('product_id')->constrained('products');
-            $table->decimal('total_price', 10, 2);
             $table->string('payment_method');
             $table->timestamps();
         });

@@ -11,13 +11,13 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'brand',
         'price',
-        'image',
         'description',
-        'category_id',
-        'condition_id',
+        'brand',
+        'image',
+        'condition',
         'stock',
+        'user_id'
     ];
 
     public function isLikedByUser()
@@ -31,14 +31,9 @@ class Product extends Model
         return $this->is_sold;
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function condition()
-    {
-        return $this->belongsTo(Condition::class);
+        return $this->belongsToMany(Category::class);
     }
 
 

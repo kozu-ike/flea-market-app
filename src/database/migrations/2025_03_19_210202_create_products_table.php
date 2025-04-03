@@ -21,9 +21,8 @@ class CreateProductsTable extends Migration
             $table->string('brand')->nullable();
             $table->integer('stock')->default(1);
             $table->string('image')->nullable();
-            $table->foreignId('condition_id')->constrained('conditions');
+            $table->string('condition', 50);
             $table->decimal('price', 10, 2);
-            $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
         });
     }

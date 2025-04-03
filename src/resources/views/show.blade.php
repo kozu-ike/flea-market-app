@@ -22,15 +22,15 @@
             <div class="like-section">
                 <form action="{{ route('products.like', $product->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="like-btn {{ $product->isLikedByUser() ? 'liked' : '' }}">
+                    <button type="submit" class="like-btn {{ $product->likes()->where('user_id', auth()->id())->exists() ? 'liked' : '' }}">
                         <img src="{{ asset('storage/products/like-btn.png') }}" alt="like" width="40" height="40">
-                        {{ $product->likes_count }}
+                        {{ $product->likes()->count() }}
                     </button>
-                    <div class="comment-section">
-                        <img src="{{ asset('storage/products/comment.png') }}" alt="comment" width="40" height="40">
-                        {{ $product->comments->count() }}
-                    </div>
                 </form>
+                <div class="comment-section">
+                    <img src="{{ asset('storage/products/comment.png') }}" alt="comment" width="40" height="40">
+                    {{ $product->comments->count() }}
+                </div>
             </div>
 
             <!-- 購入ボタン -->
@@ -47,8 +47,12 @@
             <!-- 商品情報 -->
             <div class="product-info">
                 <h3>商品情報</h3>
-                <p><strong>カテゴリー:</strong> {{ e($product->category->name) }}</p>
-                <p><strong>状態:</strong> {{ e($product->condition->name) }}</p>
+                <p><strong>カテゴリー:</strong>
+                    @foreach ($product->categories as $index => $category)
+                    {{ e($category->name) }}@if($index < $product->categories->count() - 1), @endif
+                        @endforeach
+                </p>
+                <p><strong>状態:</strong> {{ e($product->condition) }}</p>
             </div>
 
             <!-- コメント機能 -->
@@ -61,6 +65,7 @@
                     </li>
                     @endforeach
                 </ul>
+
                 @auth
                 <form action="{{ route('comments.store', $product->id) }}" method="POST">
                     @csrf

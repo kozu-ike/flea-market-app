@@ -49,17 +49,28 @@
     margin-top: 10px;
 }
 
-/* いいねボタン */
-.like-section,
-.comment-section {
+.like-section {
     display: flex;
     align-items: center;
-    gap: 10px; /* アイコン間の間隔 */
+    gap: 20px; /* アイコン間の間隔 */
 }
 
-.like-btn,
+.like-btn {
+    display: inline-flex; /* ボタン内の要素も横並びにする */
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-section {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px; /* アイコン間の間隔 */
+}
+
+.like-btn img,
 .comment-section img {
-    display: inline-block;
+    width: 40px;
+    height: 40px;
 }
 
 /* 購入ボタン */
