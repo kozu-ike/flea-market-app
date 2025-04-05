@@ -100,11 +100,6 @@ class UserController extends Controller
         return redirect()->route('mypage');
     }
 
-    // public function showPurchasedItems()
-    // {
-    //     $purchases = auth()->user()->purchases()->with('product')->get();
-    //     return view('purchases', compact('purchases'));
-    // }
 
     public function showPurchasedItems()
     {

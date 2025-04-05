@@ -60,7 +60,9 @@ class ProductController extends Controller
             $user->likes()->where('product_id', $product->id)->delete();
         } else {
             // まだ「いいね」していなければ追加
-            $user->likes()->create(['product_id' => $product->id]);
+            $user->likes()->create([
+                'product_id' => $product->id,
+                'user_id' => $user->id,]);
         }
 
         // リダイレクトなど必要に応じて処理を行う

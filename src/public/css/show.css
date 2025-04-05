@@ -75,7 +75,7 @@
 
 /* 購入ボタン */
 .buy-btn {
-    background-color: #28a745;
+    background-color: #FF5555;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -85,7 +85,7 @@
 }
 
 .buy-btn:hover {
-    background-color: #218838;
+    background-color: #FF5555;
 }
 
 /* 商品説明エリア */
@@ -125,14 +125,14 @@ textarea {
 
 button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #FF5555;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #FF5555;
 }
 
 /* レスポンシブ対応: 画面幅が小さい場合 */
