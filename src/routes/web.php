@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
 
     // 商品出品
     Route::get('/sell', [ExhibitionController::class, 'create']);
-    Route::post('/sell', [ExhibitionController::class, 'store']);
+    Route::post('/sell', [ExhibitionController::class, 'store'])->name('sell');
 
     // 送付先住所変更
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'show'])->name('purchase');

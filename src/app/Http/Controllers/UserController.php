@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
 use Faker\Provider\ar_EG\Address;
@@ -29,14 +29,40 @@ class UserController extends Controller
         return view('profile', compact('profile'));
     }
 
-    public function mypage()
+    public function mypage(Request $request)
     {
-        // プロフィール更新の処理をここに書く（例: updateProfileメソッドを呼ぶ）
         $user = auth()->user();
-        $products = $user->products;
-        // mypageビューを返す
-        return view('mypage', compact('user', 'products'));
+
+        // 初期化
+        $noSellItems = false;
+        $noBuyItems = false;
+        $products = [];
+        $purchases = [];
+
+        // タブに応じた商品データを取得
+        if ($request->tab == 'sell') {
+            $products = $user->products;  // 出品した商品
+            $purchases = [];  // 購入した商品は空
+
+            // 出品商品がない場合
+            if ($products->isEmpty()) {
+                $noSellItems = true;  // 出品商品なしフラグ
+            }
+        } elseif ($request->tab == 'buy') {
+            $purchases = $user->orders()->with('product')->get();  // 購入した商品（Orderモデルに変更）
+            $products = [];  // 出品した商品は空
+
+            // 購入商品がない場合
+            if ($purchases->isEmpty()) {
+                $noBuyItems = true;  // 購入商品なしフラグ
+            }
+        }
+
+        return view('mypage', compact('user', 'products', 'purchases', 'noSellItems', 'noBuyItems'));
     }
+
+
+
 
     public function updateProfile(AddressRequest $addressRequest, ProfileRequest $profileRequest)
     {

@@ -17,7 +17,8 @@ class Product extends Model
         'image',
         'condition',
         'stock',
-        'user_id'
+        'user_id',
+        'category_ids',
     ];
 
     public function isLikedByUser()
@@ -33,7 +34,7 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'category_product');
     }
 
 

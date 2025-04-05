@@ -8,7 +8,7 @@
 <div class="container">
     <h1 class="page-title">商品の出品</h1>
 
-    <form action="{{ url('/products') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url('/sell') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <!-- 商品画像アップロード -->
@@ -28,13 +28,13 @@
             <label class="form-label">カテゴリー</label>
             <div class="category-list">
                 @foreach($categories as $category)
-                <label>
-                    <input type="radio" name="category_id" value="{{ $category->id }}">
-                    {{ $category->name }}
+                <label class="category-label">
+                    <input type="checkbox" name="category_ids[]" value="{{ $category->id }}">
+                    <span>{{ $category->name }}</span>
                 </label>
                 @endforeach
             </div>
-            @error('category_id')
+            @error('category_ids')
             <div class="error">{{ $message }}</div>
             @enderror
         </div>
@@ -56,7 +56,7 @@
         <!-- 商品情報入力 -->
         <div class="form-group">
             <label for="name" class="form-label">商品名</label>
-            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="商品名を入力">
+            <input type="text" id="name" name="name" value="{{ old('name') }}">
             @error('name')
             <div class="error">{{ $message }}</div>
             @enderror
@@ -81,8 +81,7 @@
         <div class="form-group">
             <label for="price" class="form-label">販売価格</label>
             <div class="price-input">
-                <span>¥</span>
-                <input type="number" id="price" name="price" value="{{ old('price') }}" placeholder="価格を入力">
+                <input type="number" id="price" name="price" value="{{ old('price') }}">
             </div>
             @error('price')
             <div class="error">{{ $message }}</div>

@@ -18,30 +18,6 @@ class ProductController extends Controller
         return view('index', compact('products'));
     }
 
-
-//     public function index(Request $request)
-// {
-//     // クエリパラメータで 'mylist' が指定されている場合は、マイリストビューを返す
-//     if ($request->has('page') && $request->page === 'mylist') {
-//         // お気に入り商品など、必要なデータを取得（ここでは例として全商品）
-//         $products = Product::all(); // すべての商品を取得する場合
-//         return view('mylist', compact('products'));
-//     }
-
-//         // デフォルトでトップ画面を表示（ページネーションなし）
-//         return view('index', compact('products'));}
-
-
-    // public function mypage(Request $request)
-    // {
-    //     $view = 'mypage';
-    //     if ($request->has('page')) {
-    //         $view = $request->page;
-    //     }
-
-    //     return view($view);
-    // }
-
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');

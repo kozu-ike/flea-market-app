@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Condition;
 use App\Http\Requests\ExhibitionRequest;
 
 class ExhibitionController extends Controller
@@ -13,7 +12,14 @@ class ExhibitionController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $conditions = Condition::all();
+        $conditions = collect([
+            (object)['name' => '新品・未使用'],
+            (object)['name' => '未使用に近い'],
+            (object)['name' => '目立った傷や汚れなし'],
+            (object)['name' => 'やや傷や汚れあり'],
+            (object)['name' => '傷や汚れあり'],
+            (object)['name' => '全体的に状態が悪い'],
+        ]);
 
         return view('sell', compact('categories', 'conditions'));  // 出品フォームを表示
     }
@@ -30,19 +36,31 @@ class ExhibitionController extends Controller
         $product->price = $validated['price'];
         $product->brand = $validated['brand'];
         $product->description = $validated['description'];
-        $product->category_id = $validated['category_id']; // カテゴリーID
         $product->condition = $validated['condition'];
+
+
 
         // 画像がアップロードされている場合
         if ($request->hasFile('image')) {
-            $product->image = $request->file('image')->store('products', 'public');
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName(); // 元のファイル名を取得
+
+            // 画像を public ディスクに保存（products フォルダではなく直接保存）
+            $file->move(public_path('public/products'), $filename);
+
+            // ファイル名を保存
+            $product->image = 'products/' . $filename;
         }
 
         // ログインユーザーのIDをセット
         $product->user_id = auth()->id();
         $product->save();
 
+        if ($request->has('category_ids')) {
+            $product->categories()->attach($validated['category_ids']);
+        }
+
         // 商品が出品されたことをユーザーに通知
-        return redirect('/')->with('success', '商品が出品されました');
+        return redirect('/mypage')->with('success', '商品が出品されました');
     }
 }

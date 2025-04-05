@@ -49,8 +49,11 @@
 
                 <!-- 出品ボタン -->
                 <div class="listing">
-                    <button class="listing-button" href="/sell">出品</button>
+                    <form action="/sell" method="get">
+                        @csrf
+                        <button class="listing-button">出品</button>
                 </div>
+                </form>
             </nav>
         </div>
     </header>
