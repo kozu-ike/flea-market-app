@@ -25,7 +25,7 @@ class User extends Authenticatable
         'profile_image',
         'postal_code',
         'address',
-        'building_name',
+        'building',
     ];
 
     /**
@@ -47,10 +47,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function purchases()
-    {
-        return $this->hasMany(Payment::class);
-    }
 
     public function products()
     {

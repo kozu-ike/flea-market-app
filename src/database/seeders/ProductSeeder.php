@@ -30,7 +30,7 @@ class ProductSeeder extends Seeder
             'brand' => null,
             'image' => 'bag.png',
             'condition' => 'やや傷や汚れあり',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $shoulderBag->categories()->attach($categories['ファッション']->id);
@@ -43,7 +43,7 @@ class ProductSeeder extends Seeder
             'brand' => 'メンズ腕時計ブランド',
             'image' => 'clock.png',
             'condition' => '良好',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $watch->categories()->attach($categories['ファッション']->id);
@@ -56,7 +56,7 @@ class ProductSeeder extends Seeder
             'brand' => null,
             'image' => 'harddisk.png',
             'condition' => '目立った傷や汚れなし',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $hardDrive->categories()->attach($categories['家電']->id);
@@ -69,7 +69,7 @@ class ProductSeeder extends Seeder
             'brand' => null,
             'image' => 'onion.png',
             'condition' => 'やや傷や汚れあり',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $onionBundle->categories()->attach($categories['キッチン']->id);
@@ -82,7 +82,7 @@ class ProductSeeder extends Seeder
             'brand' => 'クロケット＆ジョーンズ',
             'image' => 'shoes.png',
             'condition' => '状態が悪い',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $leatherShoes->categories()->attach($categories['ファッション']->id);
@@ -95,7 +95,7 @@ class ProductSeeder extends Seeder
             'brand' => 'アップル',
             'image' => 'pc.png',
             'condition' => '良好',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $laptop->categories()->attach($categories['家電']->id);
@@ -108,7 +108,7 @@ class ProductSeeder extends Seeder
             'brand' => 'ソニー',
             'image' => 'microphone.png',
             'condition' => '目立った傷や汚れなし',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $microphone->categories()->attach($categories['家電']->id);
@@ -121,7 +121,7 @@ class ProductSeeder extends Seeder
             'brand' => 'STANLEY',
             'image' => 'tumbler.png',
             'condition' => '状態が悪い',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $tumbler->categories()->attach($categories['キッチン']->id);
@@ -134,7 +134,7 @@ class ProductSeeder extends Seeder
             'brand' => 'カリタ',
             'image' => 'mill.png',
             'condition' => '良好',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $coffeeMill->categories()->attach($categories['キッチン']->id);
@@ -147,7 +147,7 @@ class ProductSeeder extends Seeder
             'brand' => null,
             'image' => 'makeup.png',
             'condition' => '目立った傷や汚れなし',
-            'stock' => rand(1, 2),
+            'stock' => 1,
             'user_id' => $userId,
         ]);
         $makeupSet->categories()->attach($categories['ファッション']->id);

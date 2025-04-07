@@ -10,7 +10,6 @@
         <h2>住所の変更</h2>
     </div>
     <form action="{{ route('purchase.address.update', ['item_id' => $itemId]) }}" method="POST">
-
         @csrf
 
 
@@ -42,6 +41,11 @@
         <div class="form__group">
             <label class="form__label" for="building">建物名</label>
             <input class="form__input" type="text" name="building" id="building" value="{{ old('building', auth()->user()->building) }}">
+        </div>
+        <div class="form__error">
+            @error('building')
+            {{ $message }}
+            @enderror
         </div>
 
         <!-- 更新ボタン -->

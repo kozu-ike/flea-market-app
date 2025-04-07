@@ -66,7 +66,7 @@ class ProductController extends Controller
         }
 
         // リダイレクトなど必要に応じて処理を行う
-        return back(); // 商品ページにリダイレクト
+        return redirect()->route('products.show', ['product' => $product->id]);
     }
 
     public function store(CommentRequest $request, $productId)

@@ -9,7 +9,7 @@ class ProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_image' => 'nullable|image|mimes:jpeg,png|max:2048',
+            'profile_image' => 'nullable|image|mimes:jpeg,png',
         ];
     }
 
@@ -18,7 +18,6 @@ class ProfileRequest extends FormRequest
         return [
             'profile_image.image' => 'プロフィール画像は画像ファイルを選択してください。',
             'profile_image.mimes' => 'プロフィール画像は .jpeg または .png のみ使用できます。',
-            'profile_image.max' => 'プロフィール画像のサイズは2MB以下にしてください。',
         ];
     }
 }

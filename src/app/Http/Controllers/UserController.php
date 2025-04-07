@@ -58,26 +58,21 @@ class UserController extends Controller
             }
         }
 
-        return view('mypage', compact('user', 'products', 'purchases', 'noSellItems', 'noBuyItems'));
+        return view('mypage', compact('user', 'products', 'purchases','noSellItems', 'noBuyItems'));
     }
-
-
-
 
     public function updateProfile(AddressRequest $addressRequest, ProfileRequest $profileRequest)
     {
         // AddressRequest のバリデーション済みデータを取得
         $validatedAddress = $addressRequest->validated();
-
-        // ProfileRequest のバリデーション済みデータを取得
-        $validatedProfile = $profileRequest->validated();
-
         $user = auth()->user();
+
+        // ユーザーの基本情報の更新
         $updateData = [
             'name'        => $validatedAddress['name'],
             'postal_code' => $validatedAddress['postal_code'],
             'address'     => $validatedAddress['address'],
-            'building'    => $validatedAddress['building'],
+            'building'    => $validatedAddress['building'] ?? '',
         ];
 
         // プロフィール画像のアップロード処理（存在する場合）
@@ -94,10 +89,8 @@ class UserController extends Controller
 
         // ユーザー情報を一括更新
         $user->update($updateData);
-
-
         // 更新完了後、マイページにリダイレクト
-        return redirect()->route('mypage');
+        return redirect()->route('mypage')->with('success', 'プロフィールが更新されました');
     }
 
 

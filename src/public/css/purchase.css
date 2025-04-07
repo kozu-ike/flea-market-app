@@ -57,7 +57,7 @@
     align-items: center; /* 高さを揃える */
 }
 
-.product-plan .price, 
+.product-plan .price,
 .product-plan .payment-method {
     margin: 0;
     padding: 0;
@@ -76,6 +76,12 @@
     font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+.contact-form__error-message {
+    height: 20px;
+    color: #ff0000;
+    text-align: left;
 }
 
 /* 配送情報 */

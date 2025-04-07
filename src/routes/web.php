@@ -56,18 +56,25 @@ Route::middleware('auth')->group(function () {
 
     // 送付先住所変更
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'show'])->name('purchase');
+    //購入
     Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.process');
 
+
     // 住所変更ページのルート
+
     Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'editAddress'])->name('purchase.address');
 
     // 住所更新処理のルート
-    Route::post('/purchase/{item_id}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+    Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+
+
+
+
 
 
     // 支払い処理
+
     Route::post('/purchase/{item_id}/payment', [PurchaseController::class, 'processPayment']);
 
     Route::post('/purchase/update-payment/{item_id}', [PurchaseController::class, 'updatePayment'])->name('purchase.updatePayment');
-    Route::post('/purchase/process/{item_id}', [PurchaseController::class, 'processPurchase'])->name('purchase.process');
 });

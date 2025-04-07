@@ -26,10 +26,11 @@
                 </label>
                 <form method="POST" action="{{ route('purchase.updatePayment', $product->id) }}" id="payment-form">
                     @csrf
-                    <select class="payment-method__select" name="payment-method" required onchange="this.form.submit()">
+                    <select class="payment-method__select" name="payment_method" required onchange="this.form.submit()">
                         <option disabled selected>選択してください</option>
-                        <option value="コンビニ支払い" {{ old('payment-method', session('selected_payment')) == 'コンビニ支払い' ? 'selected' : '' }}>コンビニ支払い</option>
-                        <option value="カード支払い" {{ old('payment-method', session('selected_payment')) == 'カード支払い' ? 'selected' : '' }}>カード支払い</option>
+                        <option value="コンビニ支払い" {{ session('payment_method', session('selected_payment')) == 'コンビニ支払い' ? 'selected' : '' }}>コンビニ支払い</option>
+                        <option value="カード支払い" {{ session('payment_method', session('selected_payment')) == 'カード支払い' ? 'selected' : '' }}>カード支払い</option>
+
                     </select>
                 </form>
             </div>
@@ -51,7 +52,7 @@
                 <p class="confirm-form__data">{{ $postalCode }}</p>
                 <p class="confirm-form__data">{{ $address }}</p>
                 <p class="confirm-form__data">
-                    @if($building) ({{ $building }}) @endif
+                    @if($building) {{ $building }} @endif
                 </p>
                 <div class="form-group_buttons-center">
                     <a class="btn btn-link" href="{{ route('purchase.address', ['item_id' => $product->id]) }}">変更する</a>
@@ -74,8 +75,11 @@
                     </p>
                 </label>
                 <!-- 購入フォーム -->
-                <form method="POST" action="{{ route('purchase.process', $product->id) }}">
+                <form method="POST" action="{{ route('purchase.process', ['item_id' => $product->id]) }}">
                     @csrf
+
+                    <input type="hidden" name="payment_method" value="{{ session('selected_payment') }}">
+                    <input type="hidden" name="shipping_address" value="{{ $address }} {{ $postalCode }} {{ $building }}">
                     <button type="submit" class="btn-submit">購入する</button>
                 </form>
             </div>

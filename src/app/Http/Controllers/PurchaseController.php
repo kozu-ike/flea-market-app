@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Payment;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AddressRequest;
@@ -16,7 +16,10 @@ class PurchaseController extends Controller
     public function show($itemId)
     {
         $product = Product::findOrFail($itemId);
-        $paymentMethods = Payment::all();
+
+        // 支払い方法をハードコーディング、または config で管理するなど
+        $paymentMethods = ['カード払い', 'コンビニ払い'];
+
         return view('purchase', compact('product', 'paymentMethods'));
     }
 
@@ -31,6 +34,9 @@ class PurchaseController extends Controller
 
     public function updateAddress(AddressRequest $request, $itemId)
     {
+
+        Log::info('Item ID:', ['item_id' => $itemId]);
+
         $validated = $request->validated();
 
         $user = Auth::user();
@@ -56,7 +62,7 @@ class PurchaseController extends Controller
     public function updatePayment(Request $request, $productId)
     {
         // 支払い方法をセッションに保存
-        $paymentMethod = $request->input('payment-method');
+        $paymentMethod = $request->input('payment_method');
         session(['selected_payment' => $paymentMethod]);
 
         // ここで何らかの処理を追加することができます (例: 購入処理)
@@ -79,11 +85,15 @@ class PurchaseController extends Controller
         $product->decrement('stock');
 
         // 購入情報を保存
-        Payment::create([
+        Order::create([
             'user_id' => Auth::id(),
             'product_id' => $product->id,
             'payment_method' => $validated['payment_method'],
-            'shipping_address' => $validated['shipping_address'],
+        ]);
+
+        $product->update([
+            'status' => 'sold',
+            'stock' => 0,
         ]);
 
         return redirect()->route('mypage')->with('success', '購入が完了しました');

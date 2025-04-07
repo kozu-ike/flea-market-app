@@ -9,7 +9,7 @@
     <div class="address-form__heading">
         <h2>プロフィール設定</h2>
     </div>
-    <form action="{{ route('updateProfile') }}" method="POST">
+    <form action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
 
@@ -19,6 +19,8 @@
                 <div class="profile-image-container">
                     @if(auth()->user()->profile_image)
                     <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="プロフィール画像">
+                    @else
+                    <img src="{{ asset('storage/products/profile.png') }}" alt="デフォルト画像">
                     @endif
                 </div>
 
