@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\AddressRequest;
+use App\Http\Requests\PurchaseAddressRequest;
 use App\Http\Requests\PurchaseRequest;
 use Illuminate\Support\Facades\Log;
 
@@ -32,30 +32,25 @@ class PurchaseController extends Controller
 
     // 送付先住所変更処理
 
-    public function updateAddress(AddressRequest $request, $itemId)
+    public function updateAddress(PurchaseAddressRequest $request, $itemId)
     {
-
-        Log::info('Item ID:', ['item_id' => $itemId]);
-
         $validated = $request->validated();
 
-        $user = Auth::user();
-        $user->update([
-            'postal_code' => $validated['postal_code'],
-            'address' => $validated['address'],
-            'building' => $validated['building'],
-        ]);
+        $user = auth()->user();
 
-        if ($request->has('payment_method')) {
-            session(['selected_payment' => $request->input('payment_method')]);
-        }
+        $updateData = [
+            'postal_code' => $validated['postal_code'],
+            'address'     => $validated['address'],
+            'building'    => $validated['building'] ?? '',
+        ];
 
         session([
             'address' => $validated['address'],
             'postal_code' => $validated['postal_code'],
             'building' => $validated['building'],
         ]);
-        Log::info('Session after update', session()->all());
+
+        $user->update($updateData);
         return redirect()->route('purchase', ['item_id' => $itemId]);
     }
 
@@ -68,6 +63,7 @@ class PurchaseController extends Controller
         // ここで何らかの処理を追加することができます (例: 購入処理)
         return redirect()->route('purchase', ['item_id' => $productId]);
     }
+
 
     public function store(PurchaseRequest $request, $itemId)
     {

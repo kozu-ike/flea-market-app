@@ -10,7 +10,7 @@
         <nav class="product-nav">
             <a href="#" class="active">おすすめ</a>
             @auth
-            <a href="?tab=mylist">マイリスト</a>
+            <a href="?page=mylist">マイリスト</a>
             @else
             <a href="#" class="inactive">マイリスト</a>
             @endauth
@@ -19,12 +19,12 @@
         <div class="product-grid">
             @foreach ($products as $product)
             <div class="product-card">
-                <a href="/item/{{ $product->id }}">
+                <a href="{{ route('products.show', ['id' => $product->id]) }}">
                     <img src="{{ asset('storage/products/'.$product->image) }}" alt="{{ $product->name }}">
                     <p>{{ $product->name }}</p>
                     <p>¥{{ number_format($product->price) }}</p>
 
-                    @if ($product->isSoldOut())
+                    @if ($product->status == 'sold')
                     <p class="sold-label">Sold</p>
                     @endif
                 </a>

@@ -12,9 +12,20 @@ use Illuminate\Support\Facades\Log;
 class ProductController extends Controller
 {
     // 商品一覧画面（トップ画面）
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(10);
+        $user = auth()->user();
+
+        // `page` パラメータが 'mylist' の場合、マイリストを表示
+        if ($request->page == 'mylist' && $user) {
+            // ログインしているユーザーの「いいねした商品」を取得
+            $products = $user->likes()->with('product')->get()->pluck('product');
+        } else {
+            // 通常のおすすめ商品一覧を表示
+            $products = Product::paginate(10);
+        }
+
+        // ビューに渡す
         return view('index', compact('products'));
     }
 
@@ -31,58 +42,53 @@ class ProductController extends Controller
     }
 
     // 商品詳細画面
+
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        $likesCount = $product->likes_count; // 動的プロパティ
+        $product = Product::with(['comments.user'])->findOrFail($id);
 
-        // 商品に対するコメントの数
+        $likesCount = $product->likes()->count(); // ← 実際にDBに問い合わせてカウント
         $commentsCount = $product->comments->count();
-        return view('show', compact('product'));
+
+        return view('show', compact('product', 'likesCount', 'commentsCount'));
     }
 
     // いいねを付けるメソッド
-    public function like($productId)
+    public function like(Product $product)
     {
-
         if (!auth()->check()) {
-            return redirect()->route('login')->with('message', 'ログインしてください');
+            return redirect()->route('login');
         }
 
-        // 商品を取得
-        $product = Product::findOrFail($productId);
-        // ユーザーがその商品に対して「いいね」をしているか確認
         $user = auth()->user();
 
-        // いいねの状態をトグル（もしいいねが付いていれば削除、付いていなければ追加）
+        // トグル処理
         if ($user->likes()->where('product_id', $product->id)->exists()) {
-            // 既に「いいね」している場合は解除
             $user->likes()->where('product_id', $product->id)->delete();
         } else {
-            // まだ「いいね」していなければ追加
             $user->likes()->create([
                 'product_id' => $product->id,
-                'user_id' => $user->id,]);
+            ]);
         }
-
-        // リダイレクトなど必要に応じて処理を行う
-        return redirect()->route('products.show', ['product' => $product->id]);
+        return redirect()->route('products.show', ['id' => $product->id]);
     }
 
     public function store(CommentRequest $request, $productId)
     {
-        // ユーザーがログインしていない場合はログインページにリダイレクト
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('message', 'ログインしてください');
+        if (!auth()->check()) {
+            return redirect()->route('login');
         }
 
-        // ログインしている場合はコメントを保存
+        // 商品を取得
+        $product = Product::findOrFail($productId);
+
+        // コメントを保存
         $comment = new Comment();
         $comment->content = $request->input('content');
-        $comment->user_id = Auth::id(); // ログインユーザーのID
-        $comment->product_id = $productId;
+        $comment->user_id = Auth::id();
+        $comment->product_id = $product->id;
         $comment->save();
 
-        return redirect()->back()->with('message', 'コメントが投稿されました');
+        return redirect()->route('products.show', ['id' => $product->id]);
     }
 }

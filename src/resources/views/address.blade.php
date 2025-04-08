@@ -11,8 +11,6 @@
     </div>
     <form action="{{ route('purchase.address.update', ['item_id' => $itemId]) }}" method="POST">
         @csrf
-
-
         <!-- 郵便番号 -->
         <div class="form__group">
             <label class="form__label" for="postal_code">郵便番号</label>

@@ -48,6 +48,24 @@ php artisan db:seed
 php artisan storage:link
 ```
 
+## メール認証について
+
+- ユーザー登録後、メールアドレスの確認が必須です。
+- メール認証が完了していない場合、ログインや一部機能が制限されます。
+
+## 使用ツール
+
+### Mailhog（ローカル用）
+
+- ローカルでのメール送信確認には MailHog を使用しています。
+- MailHog UI: http://localhost:8025
+
+### Mailtrap（オプション）
+
+- Mailtrap を使う場合は .env に自分のAPI情報を入力してください。
+- Mailtrap 管理画面: https://mailtrap.io
+
+
 ## 使用技術(実行環境)
 - PHP 8.2.27
 - Laravel 8.83.29

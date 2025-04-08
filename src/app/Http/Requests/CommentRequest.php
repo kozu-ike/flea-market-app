@@ -9,15 +9,15 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comment' => 'required|string|max:255',
+            'content' => 'required|string|max:255',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'comment.required' => 'コメントを入力してください。',
-            'comment.max' => 'コメントは255文字以内で入力してください。',
+            'content.required' => 'コメントを入力してください。',
+            'content.max' => 'コメントは255文字以内で入力してください。',
         ];
     }
 }

@@ -19,6 +19,7 @@ class Product extends Model
         'stock',
         'user_id',
         'category_ids',
+        'status',
     ];
 
     public function isLikedByUser()
@@ -28,8 +29,7 @@ class Product extends Model
 
     public function isSoldOut()
     {
-        // return $this->stock === 0;
-        return $this->is_sold;
+        return $this->status === 'sold';
     }
 
     public function categories()

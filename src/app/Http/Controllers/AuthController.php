@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Verified;
 use App\Mail\VerifyEmail;
 
 class AuthController extends Controller
@@ -59,24 +61,35 @@ class AuthController extends Controller
 
     public function sendVerificationEmail(User $user)
     {
+        // 署名付きURLの生成
         $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(60),
-            ['id' => $user->id]
+            'verification.verify', // ルート名
+            now()->addMinutes(60),  // リンクの有効期限（60分）
+            ['id' => $user->id]     // パラメータ
         );
 
-        Mail::to($user->email)->send(new VerifyEmail($verificationUrl));
+        // メール送信
+        Mail::to($user->email)->send(new VerifyEmail($user, $verificationUrl));
     }
 
-    public function verifyEmail($id)
+
+    // メール認証処理
+    public function verifyEmail($id, $hash)
     {
         $user = User::findOrFail($id);
 
+        // リンクのハッシュ値が一致するか確認
+        if (!hash_equals($hash, sha1($user->getEmailForVerification()))) {
+            abort(403, 'このリンクは無効です。');
+        }
+
+        // まだ認証されていなければ認証を行う
         if (!$user->hasVerifiedEmail()) {
             $user->email_verified_at = now();
             $user->save();
         }
 
+        // 認証完了後、マイページへリダイレクト
         return redirect('/mypage')->with('message', 'メール認証が完了しました');
     }
 }

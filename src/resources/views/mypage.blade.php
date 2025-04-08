@@ -26,13 +26,9 @@
             @if(request('tab') == 'sell')
             @foreach ($products as $product)
             <div class="product-card">
-                <a href="/item/{{ $product->id }}">
+                <a href="{{ route('products.show', ['id' => $product->id]) }}">
                     <img src="{{ asset('storage/products/'.$product->image) }}" alt="{{ e($product->name) }}">
                     <p>{{ $product->name }}</p>
-                    <p>¥{{ number_format($product->price) }}</p>
-                    @if ($product->isSoldOut())
-                    <span class="sold-label">Sold</span>
-                    @endif
                 </a>
             </div>
             @endforeach
@@ -47,7 +43,6 @@
                 <a href="/item/{{ $purchase->product->id }}">
                     <img src="{{ asset('storage/products/'.$purchase->product->image) }}" alt="{{ e($purchase->product->name) }}">
                     <p>{{ $purchase->product->name }}</p>
-                    <p>¥{{ number_format($purchase->product->price) }}</p>
                 </a>
             </div>
             @endforeach

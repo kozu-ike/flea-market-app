@@ -84,7 +84,7 @@
             <div class="form__group-title">
                 <label class="form__label" for="building">建物名</label>
             </div>
-            <input class="form__input" type="text" name="building" id="building" value="{{ old('building', auth()->user()->building) }}" required />
+            <input class="form__input" type="text" name="building" id="building" value="{{ old('building', auth()->user()->building) }}" />
             <div class="form__error">
                 @error('building')
                 <span class="error-message">{{ $message }}</span> @enderror

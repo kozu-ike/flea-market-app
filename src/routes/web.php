@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Auth\Notifications\VerifyEmail;
+
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExhibitionController;
@@ -11,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ProductController::class, 'index']);
 
 // 🔹 商品詳細
-Route::get('/item/{id}', [ProductController::class, 'show']);
+Route::get('/item/{id}', [ProductController::class, 'show'])->name('products.show');
 
 
 
@@ -25,7 +27,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/products/search', [ProductController::class, 'search']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
-Route::get('/email/verify/{id}', [AuthController::class, 'verifyEmail']);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('email/verify', [AuthController::class, 'verify'])->name('verification.notice');
+    Route::get('email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+    Route::post('email/resend', [AuthController::class, 'resendVerification'])->name('verification.resend');
+});
 
 
 
@@ -42,12 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage/sold', [UserController::class, 'showSoldItems']);
 
 
-
-    // マイリスト（お気に入り商品一覧）
-    Route::get('/mylist', [ProductController::class, 'mylist']);
-
-    // 商品にいいねを付けるルート
+    // いいね用のPOSTルートを明確に分ける！
     Route::post('/products/{product}/like', [ProductController::class, 'like'])->name('products.like');
+
+
     Route::post('/comments/{productId}', [ProductController::class, 'store'])->name('comments.store');
 
     // 商品出品
@@ -66,11 +70,6 @@ Route::middleware('auth')->group(function () {
 
     // 住所更新処理のルート
     Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
-
-
-
-
-
 
     // 支払い処理
 
