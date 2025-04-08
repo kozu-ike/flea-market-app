@@ -69,3 +69,62 @@
     color: #fff; /* ホバー時は文字を白に */
     border: 1px solid #e64a19;
 }
+@media (max-width: 768px) {
+    /* ヘッダー内の要素を縦に並べる */
+    .header__inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    /* ロゴのサイズを小さく */
+    .header-title img {
+        height: 30px;
+    }
+
+    /* 検索フォームをフル幅に調整 */
+    .search-form {
+        max-width: 100%;
+        margin-top: 10px;
+    }
+
+    /* ナビゲーションボタンを縦に並べる */
+    .header-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .header-nav__button {
+        font-size: 14px;
+    }
+
+    .listing .listing-button {
+        width: 100%;
+        font-size: 16px;
+    }
+}
+
+/* レスポンシブ対応: 画面幅が480px以下の場合 */
+@media (max-width: 480px) {
+    /* 検索フォームのテキストボックスのフォントサイズを調整 */
+    .search-form__keyword {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .header-title img {
+        height: 28px;
+    }
+
+    /* ボタンのサイズと余白調整 */
+    .header-nav__button {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+
+    .listing .listing-button {
+        font-size: 14px;
+    }
+}

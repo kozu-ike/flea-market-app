@@ -148,3 +148,73 @@ textarea {
 .btn-submit:hover {
     background-color: #e54e4e;
 }
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    .form-label {
+        font-size: 16px;
+    }
+
+    .image-upload {
+        height: 120px;
+    }
+
+    .category-list {
+        flex-direction: column; /* カテゴリーを縦並びにする */
+        align-items: center;
+    }
+
+    .category-list label {
+        font-size: 12px; /* ラベルを少し小さく */
+    }
+
+    .price-input input {
+        padding-left: 15px; /* スペースを少し縮める */
+        padding-right: 15px;
+    }
+
+    .btn-submit {
+        padding: 10px;
+        font-size: 14px; /* ボタンのフォントを小さく */
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 18px; /* タイトルのフォントサイズを小さく */
+    }
+
+    .form-label {
+        font-size: 14px; /* ラベルをさらに小さく */
+    }
+
+    .image-upload {
+        height: 100px; /* 画像アップロードのエリアをさらに小さく */
+    }
+
+    .category-list {
+        flex-direction: column; /* カテゴリーを縦並び */
+        align-items: center;
+    }
+
+    .category-list label {
+        font-size: 12px;
+    }
+
+    .price-input input {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .btn-submit {
+        padding: 8px;
+        font-size: 14px; /* ボタンサイズをさらに小さく */
+    }
+}

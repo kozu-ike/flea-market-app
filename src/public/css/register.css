@@ -58,3 +58,45 @@
     margin-top: 20px;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .form {
+        width: 80%; /* フォームを広くする */
+    }
+
+    .form__button-submit {
+        width: 60%; /* ボタンの幅を広くする */
+        height: 45px; /* ボタンの高さを調整 */
+    }
+
+    .register-form__content {
+        padding: 20px;
+    }
+
+    .form__input--text input {
+        height: 35px; /* 入力フィールドの高さを調整 */
+    }
+
+    .login__link {
+        font-size: 14px; /* ログインリンクのフォントサイズを小さく */
+    }
+}
+
+@media (max-width: 480px) {
+    .form {
+        width: 90%; /* フォームをさらに広くする */
+    }
+
+    .form__button-submit {
+        width: 80%; /* ボタンの幅をさらに広く */
+        height: 40px; /* ボタンの高さをさらに調整 */
+    }
+
+    .form__input--text input {
+        height: 30px; /* 入力フィールドの高さを縮小 */
+    }
+
+    .login__link {
+        font-size: 12px; /* ログインリンクのフォントサイズをさらに小さく */
+    }
+}

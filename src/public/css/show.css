@@ -136,6 +136,7 @@ button:hover {
 }
 
 /* レスポンシブ対応: 画面幅が小さい場合 */
+/* レスポンシブ対応: 画面幅が小さい場合 */
 @media (max-width: 768px) {
     .product-show {
         flex-direction: column;
@@ -149,5 +150,51 @@ button:hover {
 
     .product-details {
         flex: 0 0 100%; /* 商品詳細も縦に並べる */
+    }
+
+    .product-details h2 {
+        font-size: 20px; /* 小さな画面用にタイトルサイズを調整 */
+    }
+
+    .price {
+        font-size: 20px; /* 価格のフォントサイズも調整 */
+    }
+
+    .buy-btn {
+        padding: 12px 25px; /* ボタンサイズの調整 */
+    }
+
+    .like-section img {
+        width: 35px; /* アイコンのサイズ調整 */
+        height: 35px;
+    }
+
+    .comment-section img {
+        width: 35px; /* アイコンのサイズ調整 */
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-details h2 {
+        font-size: 18px; /* より小さな画面用にタイトルをさらに小さく */
+    }
+
+    .price {
+        font-size: 18px; /* 価格も調整 */
+    }
+
+    .buy-btn {
+        padding: 10px 20px; /* より小さなボタン */
+    }
+
+    .like-section img {
+        width: 30px; /* アイコンのサイズをさらに小さく */
+        height: 30px;
+    }
+
+    .comment-section img {
+        width: 30px; /* アイコンのサイズをさらに小さく */
+        height: 30px;
     }
 }

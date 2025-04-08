@@ -62,3 +62,42 @@
     color: #00bcd4; /* 会員登録リンクの文字色を水色に設定 */
     text-decoration: none;
 }
+
+@media (max-width: 768px) {
+    .form {
+        width: 100%; /* モバイル画面ではフォームを100%幅に */
+        padding: 0 10px; /* 左右にパディングを追加してフォームを余白とともに調整 */
+    }
+
+    .form__input--text input {
+        height: 45px; /* モバイルでの入力フィールドの高さを少し大きく */
+    }
+
+    .form__button-submit {
+        height: 45px; /* ボタンの高さも調整 */
+        font-size: 16px; /* ボタン文字サイズを大きく */
+    }
+
+    .register__link {
+        font-size: 14px; /* リンクの文字サイズを小さく */
+    }
+}
+
+@media (max-width: 480px) {
+    .form {
+        width: 90%; /* さらに小さい画面では90%幅に調整 */
+    }
+
+    .form__input--text input {
+        height: 50px; /* モバイル端末での入力フィールド高さをさらに大きく */
+    }
+
+    .form__button-submit {
+        height: 50px; /* ボタンの高さを統一 */
+        font-size: 18px; /* ボタンの文字サイズを大きく */
+    }
+
+    .register__link {
+        font-size: 16px; /* 会員登録リンクの文字サイズを大きく */
+    }
+}

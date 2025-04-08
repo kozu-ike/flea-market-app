@@ -123,3 +123,66 @@
 .form__button-submit:hover {
     background-color: #e04444;
 }
+
+@media (max-width: 768px) {
+    .address-form__content {
+        width: 90%; /* モバイル画面では幅を広げる */
+        padding: 15px;
+    }
+
+    .address-form__heading h2 {
+        font-size: 20px; /* 見出しを小さくする */
+    }
+
+    /* プロフィール画像のコンテナを小さく */
+    .profile-image-container {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-image-upload {
+        width: 120px;
+        height: 35px;
+    }
+
+    /* 入力フィールドのフォントサイズ調整 */
+    .form__input {
+        font-size: 14px;
+    }
+
+    /* 更新ボタンのサイズ調整 */
+    .form__button-submit {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .address-form__content {
+        width: 100%; /* スマホ画面ではフル幅に */
+        padding: 10px;
+    }
+
+    .address-form__heading h2 {
+        font-size: 18px; /* 見出しをさらに小さく */
+    }
+
+    .profile-image-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-image-upload {
+        width: 100px;
+        height: 30px;
+    }
+
+    .form__input {
+        font-size: 12px;
+    }
+
+    .form__button-submit {
+        font-size: 12px;
+        padding: 6px 14px;
+    }
+}
