@@ -24,7 +24,10 @@
                 <!-- 検索フォーム -->
                 <div class="search-form">
                     <form action="/products/search" method="get">
-                        <input class="search-form__keyword" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ old('keyword', request('keyword')) }}" onchange="this.form.submit()">
+                        <input class="search-form__keyword" type="text" name="keyword" placeholder="なにをお探しですか？"
+                            value="{{ is_array(session('search_query')) ? implode(',', session('search_query')) : (session('search_query') ?? '') }}"
+                            onchange="this.form.submit()">
+
                     </form>
                 </div>
 

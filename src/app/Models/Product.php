@@ -18,9 +18,13 @@ class Product extends Model
         'condition',
         'stock',
         'user_id',
-        'category_ids',
         'status',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'orders')->withTimestamps();
+    }
 
     public function isLikedByUser()
     {

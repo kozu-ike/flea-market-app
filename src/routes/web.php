@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
+
 // 🔹 商品一覧（トップ画面）
 Route::get('/', [ProductController::class, 'index']);
 

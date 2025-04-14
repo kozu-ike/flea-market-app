@@ -18,8 +18,12 @@
 
     <div class="product-list">
         <nav class="product-nav">
-            <a href="/mypage?tab=sell" class="{{ request('tab') == 'sell' ? 'active' : '' }}">出品した商品</a>
-            <a href="/mypage?tab=buy" class="{{ request('tab') == 'buy' ? 'active' : '' }}">購入した商品</a>
+
+            <!-- タブの切り替えリンク -->
+            <a href="/mypage?tab=sell&search={{ request('keyword') }}" class="{{ request('tab') == 'sell' ? 'active' : '' }}">出品した商品</a>
+            <a href="/mypage?tab=buy&search={{ request('keyword') }}" class="{{ request('tab') == 'buy' ? 'active' : '' }}">購入した商品</a>
+
+
         </nav>
 
         <div class="product-grid">

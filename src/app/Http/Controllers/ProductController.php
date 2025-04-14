@@ -15,31 +15,50 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
+        $keyword = session('search_query'); // ← これがないからエラーになる！
 
-        // `page` パラメータが 'mylist' の場合、マイリストを表示
         if ($request->page == 'mylist' && $user) {
-            // ログインしているユーザーの「いいねした商品」を取得
-            $products = $user->likes()->with('product')->get()->pluck('product');
+            $likedProducts = $user->likes()->with('product')->get()->pluck('product');
+            $listedProducts = $user->products;
+            $products = $likedProducts->merge($listedProducts);
+
+            if ($keyword) {
+                $products = $products->filter(function ($product) use ($keyword) {
+                    return stripos($product->name, $keyword) !== false;
+                });
+            }
         } else {
-            // 通常のおすすめ商品一覧を表示
             $products = Product::paginate(10);
         }
 
-        // ビューに渡す
-        return view('index', compact('products'));
+        return view('index', compact('products', 'keyword'));
     }
+
+
+    // ビューに渡す
 
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
-        Log::info("Search request received: {$keyword}");
 
+        // 🔒 キーワードが配列で送られてくる場合の対策
+        if (is_array($keyword)) {
+            $keyword = implode(' ', $keyword); // 配列ならスペース区切りで文字列に
+        }
+
+        session(['search_query' => $keyword]);
+
+        if (app()->isLocal()) {
+            Log::info("Search keyword: " . $keyword);
+        }
         $products = $keyword
             ? Product::where('name', 'like', "%{$keyword}%")->get()
             : Product::all();
 
-        return view('index', compact('products'));
+        return view('index', compact('products', 'keyword'));
     }
+
+
 
     // 商品詳細画面
 

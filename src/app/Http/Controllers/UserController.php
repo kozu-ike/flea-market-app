@@ -10,13 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    // public function showProfile()
-
-    // {
-    //     $profile = auth()->user();
-    //     $products = $profile->products;
-    //     return view('mypage', compact('profile', 'products'));
-    // }
 
     public function __construct()
     {
@@ -38,10 +31,17 @@ class UserController extends Controller
         $noBuyItems = false;
         $products = [];
         $purchases = [];
+        $keyword = $request->keyword; // 検索キーワードを保持
 
         // タブに応じた商品データを取得
         if ($request->tab == 'sell') {
-            $products = $user->products;  // 出品した商品
+            $products = $user->products;
+
+            // 検索キーワードがあれば、出品商品をフィルタリング
+            if ($keyword) {
+                $products = $products->where('name', 'like', '%' . $keyword . '%');
+            }
+
             $purchases = [];  // 購入した商品は空
 
             // 出品商品がない場合
@@ -50,6 +50,14 @@ class UserController extends Controller
             }
         } elseif ($request->tab == 'buy') {
             $purchases = $user->orders()->with('product')->get();  // 購入した商品（Orderモデルに変更）
+
+            // 検索キーワードがあれば、購入商品をフィルタリング
+            if ($keyword) {
+                $purchases = $purchases->filter(function ($purchase) use ($keyword) {
+                    return strpos($purchase->product->name, $keyword) !== false;
+                });
+            }
+
             $products = [];  // 出品した商品は空
 
             // 購入商品がない場合
@@ -58,8 +66,10 @@ class UserController extends Controller
             }
         }
 
-        return view('mypage', compact('user', 'products', 'purchases','noSellItems', 'noBuyItems'));
+        return view('mypage', compact('user', 'products', 'purchases', 'noSellItems', 'noBuyItems', 'keyword'));
     }
+
+
 
     public function updateProfile(AddressRequest $addressRequest, ProfileRequest $profileRequest)
     {

@@ -47,7 +47,7 @@ class ExhibitionController extends Controller
 
             // 画像を public ディスクに保存（products フォルダではなく直接保存）
             $file->move(public_path('products'), $filename);
-            $$product->image = $filename;
+            $product->image = $filename;
         }
 
         // ログインユーザーのIDをセット

@@ -47,6 +47,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function purchases()
+    {
+        return $this->belongsToMany(Product::class, 'orders')->withTimestamps();
+    }
 
     public function products()
     {
@@ -60,7 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function likes()
     {
-        return $this->hasMany(Like::class);
+        return $this->belongsToMany(Product::class, 'likes')->withTimestamps();
     }
 
     public function comments()

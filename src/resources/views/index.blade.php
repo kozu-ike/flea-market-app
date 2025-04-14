@@ -17,6 +17,7 @@
         </nav>
 
         <div class="product-grid">
+
             @foreach ($products as $product)
             <div class="product-card">
                 <a href="{{ route('products.show', ['id' => $product->id]) }}">
