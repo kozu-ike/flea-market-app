@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $keyword = session('search_query'); // ← これがないからエラーになる！
+        $keyword = session('search_query');
 
         if ($request->page == 'mylist' && $user) {
             $likedProducts = $user->likes()->with('product')->get()->pluck('product');
@@ -28,7 +28,9 @@ class ProductController extends Controller
                 });
             }
         } else {
-            $products = Product::paginate(10);
+            $products = Product::when($user, function ($query) use ($user) {
+                return $query->where('user_id', '!=', $user->id);
+            })->paginate(10);
         }
 
         return view('index', compact('products', 'keyword'));

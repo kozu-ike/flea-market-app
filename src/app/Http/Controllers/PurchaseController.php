@@ -87,10 +87,11 @@ class PurchaseController extends Controller
             'payment_method' => $validated['payment_method'],
         ]);
 
-        $product->update([
-            'status' => 'sold',
-            'stock' => 0,
-        ]);
+        if ($product->stock == 0) {
+            $product->update([
+                'status' => 'sold',
+            ]);
+        }
 
         return redirect()->route('mypage')->with('success', '購入が完了しました');
     }
