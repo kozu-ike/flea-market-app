@@ -14,7 +14,6 @@ class UserLoginTest extends TestCase
     {
         parent::setUp();
 
-        // User シーディングを実行
         $this->seed(\Database\Seeders\UserSeeder::class);
     }
 
@@ -23,9 +22,10 @@ class UserLoginTest extends TestCase
     {
         $response = $this->post('/login', [
             'email' => '',
-            'password' => bcrypt('password123'),        ]);
+            'password' => bcrypt('password123'),
+        ]);
 
-        $response->assertSessionHasErrors('email'); // メールアドレスが空の場合のエラー
+        $response->assertSessionHasErrors('email');
     }
 
     /** @test */
@@ -36,35 +36,33 @@ class UserLoginTest extends TestCase
             'password' => '',
         ]);
 
-        $response->assertSessionHasErrors('password'); // パスワードが空の場合のエラー
+        $response->assertSessionHasErrors('password');
     }
 
     /** @test */
     public function incorrect_login_information_shows_error_message()
     {
-        // User Seeder から作成したユーザーを取得
-        $user = User::first();  // シーダーで作成した最初のユーザーを使う
+        $user = User::first();
 
         $response = $this->post('/login', [
             'email' => 'test@example.com',
-            'password' => 'wrongpassword', // 間違ったパスワード
+            'password' => 'wrongpassword',
         ]);
 
-        $response->assertSessionHasErrors('email'); // メールアドレスかパスワードが間違っている場合
+        $response->assertSessionHasErrors('email');
     }
 
     /** @test */
     public function user_can_login_with_correct_credentials()
     {
-        // User Seeder から作成したユーザーを取得
-        $user = User::first();  // シーダーで作成した最初のユーザーを使う
+        $user = User::first();
 
         $response = $this->post('/login', [
-            'email' => $user->email,  // 作成したユーザーのメールアドレス
-            'password' => 'password123', // 正しいパスワード
+            'email' => $user->email,
+            'password' => 'password123',
         ]);
 
-        $this->assertAuthenticatedAs($user); // ログインしたユーザーが認証されているか
-        $response->assertRedirect('/mypage'); // ログイン後、ユーザーのプロフィールページにリダイレクトされること
+        $this->assertAuthenticatedAs($user);
+        $response->assertRedirect('/mypage');
     }
 }

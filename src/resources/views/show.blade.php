@@ -7,18 +7,15 @@
 @section('content')
 <div class="container">
     <div class="product-show">
-        <!-- 商品画像 -->
         <div class="product-img">
             <img src="{{ asset('storage/products/'.$product->image) }}" alt="{{ e($product->name) }}">
         </div>
 
-        <!-- 商品詳細 -->
         <div class="product-details">
             <h2>{{ e($product->name) }}</h2>
             <p class="brand">{{ e($product->brand) }}</p>
             <p class="price">¥{{ number_format($product->price) }}（税込）</p>
 
-            <!-- いいね機能 -->
             <div class="like-section">
                 <form action="{{ route('products.like', $product->id) }}" method="POST">
                     @csrf
@@ -33,18 +30,15 @@
                 </div>
             </div>
 
-            <!-- 購入ボタン -->
             <form action="{{ route('purchase', $product->id) }}" method="GET">
                 <button type="submit" class="buy-btn">購入手続きへ</button>
             </form>
 
-            <!-- 商品説明 -->
             <div class="product-description">
                 <h3>商品説明</h3>
                 <p>{{ e($product->description) }}</p>
             </div>
 
-            <!-- 商品情報 -->
             <div class="product-info">
                 <h3>商品情報</h3>
                 <p><strong>カテゴリー:</strong>
@@ -55,7 +49,6 @@
                 <p><strong>状態:</strong> {{ e($product->condition) }}</p>
             </div>
 
-            <!-- コメント機能 -->
             <div class="comments">
                 <h3>コメント ({{ $product->comments->count() }})</h3>
                 <ul class="comment-list">

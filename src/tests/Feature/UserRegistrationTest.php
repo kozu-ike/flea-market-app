@@ -80,36 +80,28 @@ class UserRegistrationTest extends TestCase
     /** @test */
     public function user_can_register_with_valid_input()
     {
-        // 外部キー制約を無効化
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        // UserSeederを使用してユーザーをシーディング
         $this->seed(\Database\Seeders\UserSeeder::class);
 
-        $faker = Faker::create();  // Fakerを初期化
-        $email = $faker->unique()->safeEmail;  // 一意なメールアドレスを生成
+        $faker = Faker::create();
+        $email = $faker->unique()->safeEmail;
 
-        // ユーザーを登録
         $response = $this->post('/register', [
             'name' => '赤坂太郎',
-            'email' => $email,  // 生成したメールアドレスを使う
+            'email' => $email,
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
 
-        // 登録したユーザーを取得（メールアドレスで検索）
-        $user = User::where('email', $email)->first(); // 変数で保存したメールアドレスを使用
+        $user = User::where('email', $email)->first();
 
-        // ユーザーでログイン状態にする
         $this->actingAs($user);
 
-        // レスポンスのステータスコードを確認（リダイレクト）
         $response->assertStatus(302);
 
-        // ユーザーが認証されていることを確認
         $this->assertAuthenticated();
 
-        // ユーザーのマイページプロフィールにリダイレクトされることを確認
         $response->assertRedirect(route('profile.setup'));
     }
 }

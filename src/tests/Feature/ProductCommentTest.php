@@ -16,14 +16,12 @@ class ProductCommentTest extends TestCase
     {
         parent::setUp();
 
-        // Seeder を使ってユーザー・商品・カテゴリを準備
         Artisan::call('db:seed', ['--class' => 'UserSeeder']);
         Artisan::call('db:seed', ['--class' => 'CategorySeeder']);
         Artisan::call('db:seed', ['--class' => 'ProductSeeder']);
     }
 
     /**
-     * ログイン済みのユーザーはコメントを送信できる
      *
      * @return void
      */
@@ -50,8 +48,6 @@ class ProductCommentTest extends TestCase
     }
 
     /**
-     * ログイン前のユーザーはコメントを送信できない
-     *
      * @return void
      */
     public function testNotLoggedInUserCannotSendComment()
@@ -66,7 +62,6 @@ class ProductCommentTest extends TestCase
     }
 
     /**
-     * コメントが入力されていない場合、バリデーションメッセージが表示される
      *
      * @return void
      */
@@ -80,12 +75,10 @@ class ProductCommentTest extends TestCase
         $response = $this->post(route('comments.store', $product->id), [
             'content' => ''
         ]);
-
         $response->assertSessionHasErrors('content');
     }
 
-    /**
-     * コメントが255字以上の場合、バリデーションメッセージが表示される
+    /**メントが255字以上の場合、バリデーションメッセージが表示される
      *
      * @return void
      */

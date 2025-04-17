@@ -1,4 +1,3 @@
-/* ヘッダー全体 */
 .header {
     background: #000;
     padding: 10px 20px;
@@ -7,7 +6,6 @@
     justify-content: space-between;
 }
 
-/* ヘッダー内のレイアウト */
 .header__inner {
     display: flex;
     align-items: center;
@@ -16,16 +14,14 @@
     margin: 0 auto;
 }
 
-/* ロゴ */
 .header-title img {
     height: 36px;
 }
 
-/* 検索フォーム */
 .search-form {
-    flex-grow: 1; /* 幅いっぱいに広げる */
+    flex-grow: 1;
     max-width: 500px;
-    margin: 0 auto; /* 中央配置 */
+    margin: 0 auto;
 }
 
 .search-form__keyword {
@@ -36,14 +32,12 @@
     border: 1px solid #ccc;
 }
 
-/* ナビゲーション */
 .header-nav {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* ログイン・マイページボタン（枠なし・白文字） */
 .header-nav__button {
     background: none;
     color: #fff;
@@ -53,42 +47,37 @@
     padding: 5px 10px;
 }
 
-/* 出品ボタン（枠あり） */
 .listing .listing-button {
     padding: 8px 15px;
     background-color: #fff;
-    color: #000; /* 文字を黒にして見えるように */
+    color: #000;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    border: 1px solid #000; /* 枠線を追加 */
+    border: 1px solid #000;
 }
 
 .listing .listing-button:hover {
     background-color: #e64a19;
-    color: #fff; /* ホバー時は文字を白に */
+    color: #fff;
     border: 1px solid #e64a19;
 }
 @media (max-width: 768px) {
-    /* ヘッダー内の要素を縦に並べる */
     .header__inner {
         flex-direction: column;
         align-items: flex-start;
         padding: 10px;
     }
 
-    /* ロゴのサイズを小さく */
     .header-title img {
         height: 30px;
     }
 
-    /* 検索フォームをフル幅に調整 */
     .search-form {
         max-width: 100%;
         margin-top: 10px;
     }
 
-    /* ナビゲーションボタンを縦に並べる */
     .header-nav {
         display: flex;
         flex-direction: column;
@@ -106,9 +95,7 @@
     }
 }
 
-/* レスポンシブ対応: 画面幅が480px以下の場合 */
 @media (max-width: 480px) {
-    /* 検索フォームのテキストボックスのフォントサイズを調整 */
     .search-form__keyword {
         font-size: 14px;
         padding: 8px;
@@ -118,7 +105,6 @@
         height: 28px;
     }
 
-    /* ボタンのサイズと余白調整 */
     .header-nav__button {
         font-size: 12px;
         padding: 5px 8px;

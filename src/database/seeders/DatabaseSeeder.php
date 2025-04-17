@@ -13,13 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // ① ユーザー
         $this->call(UserSeeder::class);
-
-        // ② カテゴリー
         $this->call(CategorySeeder::class);
-
-        // ③ 商品（ユーザーとカテゴリに依存してる）
         $this->call(ProductSeeder::class);
     }
 }

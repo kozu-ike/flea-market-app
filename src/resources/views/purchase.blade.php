@@ -7,14 +7,11 @@
 @section('content')
 <div class="container">
     <div class="product-show">
-        <!-- 左側グループ -->
         <div class="left-group">
-            <!-- 商品画像 -->
             <div class="product-img">
                 <img src="{{ asset('storage/products/'.$product->image) }}" alt="{{ e($product->name) }}">
             </div>
 
-            <!-- 商品詳細 -->
             <div class="product-details">
                 <h2>{{ e($product->name) }}</h2>
                 <p class="price">¥{{ number_format($product->price) }}（税込）</p>
@@ -30,7 +27,6 @@
                         <option disabled selected>選択してください</option>
                         <option value="コンビニ支払い" {{ session('payment_method', session('selected_payment')) == 'コンビニ支払い' ? 'selected' : '' }}>コンビニ支払い</option>
                         <option value="カード支払い" {{ session('payment_method', session('selected_payment')) == 'カード支払い' ? 'selected' : '' }}>カード支払い</option>
-
                     </select>
                 </form>
             </div>
@@ -46,7 +42,6 @@
             $building = session('building', auth()->user()->building);
             @endphp
 
-            <!-- 配送先部分 -->
             <div class="product-address">
                 <p class="confirm-form__label">配送先</p>
                 <p class="confirm-form__data">{{ $postalCode }}</p>
@@ -60,9 +55,7 @@
             </div>
         </div>
 
-        <!-- 右側グループ -->
         <div class="right-group">
-            <!-- 小計部分 -->
             <div class="product-plan">
                 <label for="product-plan_price">
                     <p class="price">商品代金</p>
@@ -74,10 +67,8 @@
                         {{ session('selected_payment') ? session('selected_payment') : '未選択' }}
                     </p>
                 </label>
-                <!-- 購入フォーム -->
                 <form method="POST" action="{{ route('purchase.process', ['item_id' => $product->id]) }}">
                     @csrf
-
                     <input type="hidden" name="payment_method" value="{{ session('selected_payment') }}">
                     <input type="hidden" name="shipping_address" value="{{ $address }} {{ $postalCode }} {{ $building }}">
                     <button type="submit" class="btn-submit">購入する</button>

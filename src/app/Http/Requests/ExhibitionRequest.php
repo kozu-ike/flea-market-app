@@ -10,13 +10,14 @@ class ExhibitionRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'brand' => 'string|max:255',
+            'brand' => 'nullable|string|max:255',
             'description' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png|max:2048',
             'category_ids' => 'required|array',
             'category_ids.*' => 'exists:categories,id',
             'condition' => 'required|in:新品・未使用,未使用に近い,目立った傷や汚れなし,やや傷や汚れあり,傷や汚れあり,全体的に状態が悪い',
             'price' => 'required|numeric|min:0',
+            'stock' => 'nullable|integer|min:0',
         ];
     }
 
@@ -37,6 +38,8 @@ class ExhibitionRequest extends FormRequest
             'price.required' => '商品価格を入力してください。',
             'price.numeric' => '商品価格は数値で入力してください。',
             'price.min' => '商品価格は0円以上で入力してください。',
+            'stock.integer' => 'ストックは整数で入力してください。',
+            'stock.min' => 'ストックは0以上の値にしてください。',
         ];
     }
 }

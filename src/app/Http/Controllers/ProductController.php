@@ -11,22 +11,22 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
-    // 商品一覧画面（トップ画面）
     public function index(Request $request)
     {
         $user = auth()->user();
         $keyword = session('search_query');
 
         if ($request->page == 'mylist' && $user) {
-            $likedProducts = $user->likes()->with('product')->get()->pluck('product');
-            $listedProducts = $user->products;
-            $products = $likedProducts->merge($listedProducts);
+            $likedProducts = $user->likes;
+            $products = $likedProducts;
 
             if ($keyword) {
                 $products = $products->filter(function ($product) use ($keyword) {
                     return stripos($product->name, $keyword) !== false;
                 });
             }
+
+            return view('index', compact('products', 'keyword'));
         } else {
             $products = Product::when($user, function ($query) use ($user) {
                 return $query->where('user_id', '!=', $user->id);
@@ -36,16 +36,12 @@ class ProductController extends Controller
         return view('index', compact('products', 'keyword'));
     }
 
-
-    // ビューに渡す
-
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
 
-        // 🔒 キーワードが配列で送られてくる場合の対策
         if (is_array($keyword)) {
-            $keyword = implode(' ', $keyword); // 配列ならスペース区切りで文字列に
+            $keyword = implode(' ', $keyword);
         }
 
         session(['search_query' => $keyword]);
@@ -60,21 +56,16 @@ class ProductController extends Controller
         return view('index', compact('products', 'keyword'));
     }
 
-
-
-    // 商品詳細画面
-
     public function show($id)
     {
         $product = Product::with(['comments.user'])->findOrFail($id);
 
-        $likesCount = $product->likes()->count(); // ← 実際にDBに問い合わせてカウント
+        $likesCount = $product->likes()->count();
         $commentsCount = $product->comments->count();
 
         return view('show', compact('product', 'likesCount', 'commentsCount'));
     }
 
-    // いいねを付けるメソッド
     public function like(Product $product)
     {
         if (!auth()->check()) {
@@ -83,14 +74,12 @@ class ProductController extends Controller
 
         $user = auth()->user();
 
-        // トグル処理
         if ($user->likes()->where('product_id', $product->id)->exists()) {
-            $user->likes()->where('product_id', $product->id)->delete();
+            $user->likes()->detach($product->id);
         } else {
-            $user->likes()->create([
-                'product_id' => $product->id,
-            ]);
+            $user->likes()->attach($product->id);
         }
+
         return redirect()->route('products.show', ['id' => $product->id]);
     }
 
@@ -100,10 +89,8 @@ class ProductController extends Controller
             return redirect()->route('login');
         }
 
-        // 商品を取得
         $product = Product::findOrFail($productId);
 
-        // コメントを保存
         $comment = new Comment();
         $comment->content = $request->input('content');
         $comment->user_id = Auth::id();

@@ -11,7 +11,6 @@
     <form action="{{ url('/sell') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <!-- 商品画像アップロード -->
         <div class="form-group">
             <label for="image" class="form-label">商品画像</label>
             <div class="image-upload">
@@ -23,7 +22,6 @@
             @enderror
         </div>
 
-        <!-- 商品カテゴリ（DBから取得） -->
         <div class="form-group">
             <label class="form-label">カテゴリー</label>
             <div class="category-list">
@@ -39,7 +37,6 @@
             @enderror
         </div>
 
-        <!-- 商品状態（DBから取得） -->
         <div class="form-group">
             <label for="condition" class="form-label">商品の状態</label>
             <select id="condition" name="condition">
@@ -53,7 +50,6 @@
             @enderror
         </div>
 
-        <!-- 商品情報入力 -->
         <div class="form-group">
             <label for="name" class="form-label">商品名</label>
             <input type="text" id="name" name="name" value="{{ old('name') }}">

@@ -16,13 +16,9 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        // 最初のユーザーを取得
         $userId = User::first()->id;
-
-        // 必要なカテゴリを取得し、キーでアクセスできるように設定
         $categories = Category::whereIn('name', ['ファッション', '家電', 'キッチン'])->get()->keyBy('name');
 
-        // ショルダーバッグの製品
         $shoulderBag = Product::create([
             'name' => 'ショルダーバッグ',
             'price' => 3500,
@@ -35,7 +31,6 @@ class ProductSeeder extends Seeder
         ]);
         $shoulderBag->categories()->attach($categories['ファッション']->id);
 
-        // 腕時計の製品
         $watch = Product::create([
             'name' => '腕時計',
             'price' => 15000,
@@ -48,7 +43,6 @@ class ProductSeeder extends Seeder
         ]);
         $watch->categories()->attach($categories['ファッション']->id);
 
-        // ハードディスクの製品
         $hardDrive = Product::create([
             'name' => 'HDD',
             'price' => 5000,
@@ -61,7 +55,6 @@ class ProductSeeder extends Seeder
         ]);
         $hardDrive->categories()->attach($categories['家電']->id);
 
-        // 玉ねぎ3束の製品
         $onionBundle = Product::create([
             'name' => '玉ねぎ3束',
             'price' => 300,
@@ -74,7 +67,6 @@ class ProductSeeder extends Seeder
         ]);
         $onionBundle->categories()->attach($categories['キッチン']->id);
 
-        // 革靴の製品
         $leatherShoes = Product::create([
             'name' => '革靴',
             'price' => 4000,
@@ -87,7 +79,6 @@ class ProductSeeder extends Seeder
         ]);
         $leatherShoes->categories()->attach($categories['ファッション']->id);
 
-        // ノートPCの製品
         $laptop = Product::create([
             'name' => 'ノートPC',
             'price' => 45000,
@@ -100,7 +91,6 @@ class ProductSeeder extends Seeder
         ]);
         $laptop->categories()->attach($categories['家電']->id);
 
-        // マイクの製品
         $microphone = Product::create([
             'name' => 'マイク',
             'price' => 8000,
@@ -113,7 +103,6 @@ class ProductSeeder extends Seeder
         ]);
         $microphone->categories()->attach($categories['家電']->id);
 
-        // タンブラーの製品
         $tumbler = Product::create([
             'name' => 'タンブラー',
             'price' => 500,
@@ -126,7 +115,6 @@ class ProductSeeder extends Seeder
         ]);
         $tumbler->categories()->attach($categories['キッチン']->id);
 
-        // コーヒーミルの製品
         $coffeeMill = Product::create([
             'name' => 'コーヒーミル',
             'price' => 4000,
@@ -139,7 +127,6 @@ class ProductSeeder extends Seeder
         ]);
         $coffeeMill->categories()->attach($categories['キッチン']->id);
 
-        // メイクセットの製品
         $makeupSet = Product::create([
             'name' => 'メイクセット',
             'price' => 2500,

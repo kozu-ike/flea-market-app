@@ -35,7 +35,6 @@
     height: 40px;
     border: 1px solid #ddd;
     border-radius: 3px;
-
     appearance: none;
 }
 
@@ -61,12 +60,12 @@
 
 @media (max-width: 768px) {
     .form {
-        width: 80%; /* フォームを広くする */
+        width: 80%;
     }
 
     .form__button-submit {
-        width: 60%; /* ボタンの幅を広くする */
-        height: 45px; /* ボタンの高さを調整 */
+        width: 60%;
+        height: 45px;
     }
 
     .register-form__content {
@@ -74,29 +73,29 @@
     }
 
     .form__input--text input {
-        height: 35px; /* 入力フィールドの高さを調整 */
+        height: 35px;
     }
 
     .login__link {
-        font-size: 14px; /* ログインリンクのフォントサイズを小さく */
+        font-size: 14px;
     }
 }
 
 @media (max-width: 480px) {
     .form {
-        width: 90%; /* フォームをさらに広くする */
+        width: 90%;
     }
 
     .form__button-submit {
-        width: 80%; /* ボタンの幅をさらに広く */
-        height: 40px; /* ボタンの高さをさらに調整 */
+        width: 80%;
+        height: 40px;
     }
 
     .form__input--text input {
-        height: 30px; /* 入力フィールドの高さを縮小 */
+        height: 30px;
     }
 
     .login__link {
-        font-size: 12px; /* ログインリンクのフォントサイズをさらに小さく */
+        font-size: 12px;
     }
 }

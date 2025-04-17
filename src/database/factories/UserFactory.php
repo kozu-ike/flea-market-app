@@ -23,11 +23,10 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
-            // ここでランダムにプロフィール画像のパスを設定
             'profile_image' => $this->faker->randomElement(['test-profile.png', 'default-profile.png']),
             'postal_code' => $this->faker->postcode,
             'address' => $this->faker->address,
-            'building' => $this->faker->optional()->word, // buildingはオプショナル
+            'building' => $this->faker->optional()->word,
         ];
     }
 

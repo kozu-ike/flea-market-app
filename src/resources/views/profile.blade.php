@@ -12,8 +12,6 @@
     <form action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-
-        <!-- プロフィール画像 -->
         <div class="form__group">
             <div class="profile">
                 <div class="profile-image-container">
@@ -23,7 +21,6 @@
                     <img src="{{ asset('storage/products/profile.png') }}" alt="デフォルト画像">
                     @endif
                 </div>
-
                 <label for="profile_image" class="profile-image-upload">画像を選択する</label>
                 <input type="file" name="profile_image" id="profile_image" class="form__input" accept="image/*" hidden />
 
@@ -35,7 +32,6 @@
             </div>
         </div>
 
-        <!-- ユーザー名 -->
         <div class="form__group">
             <div class="form__group-title">
                 <label class="form__label" for="name">ユーザー名</label>
@@ -52,7 +48,6 @@
             </div>
         </div>
 
-        <!-- 郵便番号 -->
         <div class="form__group">
             <div class="form__group-title">
                 <label class="form__label" for="postal_code">郵便番号</label>
@@ -67,7 +62,6 @@
             </div>
         </div>
 
-        <!-- 住所 -->
         <div class="form__group">
             <div class="form__group-title">
                 <label class="form__label" for="address">住所</label>
@@ -79,7 +73,6 @@
             </div>
         </div>
 
-        <!-- 建物名 -->
         <div class="form__group">
             <div class="form__group-title">
                 <label class="form__label" for="building">建物名</label>
@@ -91,7 +84,6 @@
             </div>
         </div>
 
-        <!-- 更新ボタン -->
         <div class="form__button">
             <button class="form__button-submit" type="submit">更新する</button>
         </div>

@@ -11,7 +11,6 @@ class CategoryFactory extends Factory
 
     public function definition()
     {
-        // カテゴリー名を固定のリストからランダムに選択
         $categories = [
             'ファッション',
             '家電',
@@ -30,7 +29,7 @@ class CategoryFactory extends Factory
         ];
 
         return [
-            'name' => $this->faker->randomElement($categories),  // 上記リストからランダムに選択
+            'name' => $this->faker->randomElement($categories),
         ];
     }
 }
