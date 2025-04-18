@@ -44,6 +44,14 @@ return [
             'timeout' => null,
             'auth_mode' => null,
         ],
+        'mailtrap' => [
+            'transport' => 'smtp',
+            'host' => 'smtp.mailtrap.io',
+            'port' => 2525,
+            'encryption' => 'tls',
+            'username' => 'your-mailtrap-username',
+            'password' => 'your-mailtrap-password',
+        ],
 
         'ses' => [
             'transport' => 'ses',

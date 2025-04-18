@@ -64,6 +64,6 @@ class ProductListingTest extends TestCase
         ]);
 
         $this->assertNotNull($product->image);
-        $this->assertFileExists(public_path('products/' . $product->image));
+        $this->assertFileExists(public_path('storage/products/' . $product->image));
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\Product;
+use App\Models\PaymentMethod;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -54,7 +55,8 @@ class UserProfileTest extends TestCase
         ]);
         $this->assertNotNull($otherProduct, '他のユーザーの商品が作成されていません');
 
-        $user->purchases()->attach($otherProduct->id, ['payment_method' => 'カード支払い']);
+        $payment = PaymentMethod::create(['name' => 'カード支払い']);
+        $user->purchases()->attach($otherProduct->id, ['payment_method_id' => $payment->id]);
 
         $this->actingAs($user);
 

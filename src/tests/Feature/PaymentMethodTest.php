@@ -19,11 +19,9 @@ class PaymentMethodTest extends TestCase
         Artisan::call('db:seed', ['--class' => 'UserSeeder']);
         Artisan::call('db:seed', ['--class' => 'CategorySeeder']);
         Artisan::call('db:seed', ['--class' => 'ProductSeeder']);
+        Artisan::call('db:seed', ['--class' => 'PaymentMethodSeeder']);
     }
 
-    /**
-     * @return void
-     */
     public function testPaymentMethodIsUpdatedImmediatelyOnSelection()
     {
         $user = User::where('email', 'akasaka@example.com')->first();
@@ -34,18 +32,21 @@ class PaymentMethodTest extends TestCase
         $response = $this->get(route('purchase', $product->id));
         $response->assertSee('カード支払い');
         $response->assertSee('コンビニ支払い');
+
         $response = $this->post(route('purchase.updatePayment', $product->id), [
             'payment_method' => 'カード支払い',
         ]);
-        $response->assertSessionHas('selected_payment', 'カード支払い');
 
-        $this->assertEquals('カード支払い', session('selected_payment'));
+        $response->assertSessionHas('selected_payment', 'カード支払い');
+        $response = $this->get(route('purchase', $product->id));
+        $response->assertSee('カード支払い');
 
         $response = $this->post(route('purchase.updatePayment', $product->id), [
             'payment_method' => 'コンビニ支払い',
         ]);
 
         $response->assertSessionHas('selected_payment', 'コンビニ支払い');
-        $this->assertEquals('コンビニ支払い', session('selected_payment'));
+        $response = $this->get(route('purchase', $product->id));
+        $response->assertSee('コンビニ支払い');
     }
 }

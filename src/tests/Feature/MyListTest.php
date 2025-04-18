@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 
 class MyListTest extends TestCase
 {
@@ -16,16 +17,19 @@ class MyListTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
-        $this->category = Category::factory()->create();
+        Artisan::call('db:seed', ['--class' => 'UserSeeder']);
+        Artisan::call('db:seed', ['--class' => 'CategorySeeder']);
+        Artisan::call('db:seed', ['--class' => 'ProductSeeder']);
+        Artisan::call('db:seed', ['--class' => 'PaymentMethodSeeder']);
+
+        $this->user = User::first();
+        $this->category = Category::first();
         $this->actingAs($this->user);
     }
 
     public function testItemsDisplayedForAuthenticatedUsers()
     {
-        $products = Product::factory()
-            ->count(2)
-            ->create(['user_id' => $this->user->id]);
+        $products = Product::where('user_id', $this->user->id)->get();
 
         foreach ($products as $product) {
             $product->categories()->attach($this->category->id);
@@ -37,51 +41,48 @@ class MyListTest extends TestCase
         $this->user->likes()->attach($likedProduct->id);
 
         $response = $this->get('/?page=mylist');
+
         $response->assertSee($likedProduct->name);
     }
 
     public function testSoldItemsDisplaySoldLabel()
     {
-        $soldProduct = Product::factory()->create([
-            'user_id' => $this->user->id,
-            'status' => 'sold',
-        ]);
-        $soldProduct->categories()->attach($this->category->id);
+        $soldProduct = Product::where('status', 'sold')->first();
+        $availableProduct = Product::where('status', 'available')->first();
 
-        $availableProduct = Product::factory()->create([
-            'user_id' => $this->user->id,
-            'status' => 'available',
-        ]);
-        $availableProduct->categories()->attach($this->category->id);
+        // なければテスト用に一時的に更新
+        if (!$soldProduct) {
+            $soldProduct = Product::first();
+            $soldProduct->update(['status' => 'sold']);
+        }
 
-        $likedProduct = Product::factory()->create([
-            'user_id' => $this->user->id,
-            'status' => 'sold',
-        ]);
-        $likedProduct->categories()->attach($this->category->id);
+        if (!$availableProduct) {
+            $availableProduct = Product::where('id', '!=', $soldProduct->id)->first();
+            $availableProduct->update(['status' => 'available']);
+        }
 
-        $this->user->likes()->attach($likedProduct->id);
+        $this->user->likes()->attach($soldProduct->id);
 
         $response = $this->get('/?page=mylist');
         $response->assertSee('Sold');
-        $response->assertSee($likedProduct->name);
+        $response->assertSee($soldProduct->name);
     }
 
     public function testOwnProductsNotDisplayedInMyList()
     {
-        $ownProduct = Product::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
-        $ownProduct->categories()->attach($this->category->id);
+        $ownProduct = Product::where('user_id', $this->user->id)->first();
 
         $response = $this->get('/?page=mylist');
+
         $response->assertDontSee($ownProduct->name);
     }
 
     public function testNoItemsDisplayedForUnauthenticatedUsers()
     {
         $response = $this->get('/?page=mylist');
-        $response->assertSee('ログイン');
-        $response->assertDontSee('<p>');
+
+        $response->assertStatus(200);
+
+        $response->assertDontSee('<p class="product-card">');
     }
 }

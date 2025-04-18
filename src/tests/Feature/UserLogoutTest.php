@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserLogoutTest extends TestCase
 {
@@ -21,8 +22,11 @@ class UserLogoutTest extends TestCase
      */
     public function testLogout()
     {
-        $user = User::first();
-
+        $user = User::create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password123'),
+        ]);
         $response = $this->actingAs($user);
         $response = $this->post('/logout');
         $response->assertRedirect('/');

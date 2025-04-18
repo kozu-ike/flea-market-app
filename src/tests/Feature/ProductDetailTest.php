@@ -37,23 +37,14 @@ class ProductDetailTest extends TestCase
      */
     public function testProductDetailPageDisplaysNecessaryInformation()
     {
-        $user = User::updateOrCreate(
-            ['email' => 'akasaka@example.com'],
-            [
-                'name' => '赤坂太郎',
-                'password' => bcrypt('password123'),
-                'address' => '福岡県福岡市中央区赤坂1-2-3',
-                'postal_code' => '123-4567',
-                'building' => '赤坂ビル',
-            ]
-        );
+        $user = User::where('email', 'akasaka@example.com')->first();
         $product = Product::first();
 
         $category1 = Category::create(['name' => 'Category 1']);
         $category2 = Category::create(['name' => 'Category 2']);
         $product->categories()->sync([$category1->id, $category2->id]);
 
-        $comment = Comment::factory()->create([
+        $comment = Comment::create([
             'product_id' => $product->id,
             'user_id' => $user->id,
             'content' => 'This is a comment on the product.',
@@ -62,6 +53,8 @@ class ProductDetailTest extends TestCase
         $product->likes()->attach($user->id, ['created_at' => now(), 'updated_at' => now()]);
 
         $this->actingAs($user);
+        $product->load(['categories', 'comments.user', 'likes']);
+
 
         $response = $this->get(route('products.show', $product));
         $response->assertSee($product->name);
@@ -83,16 +76,7 @@ class ProductDetailTest extends TestCase
      */
     public function testMultipleCategoriesAreDisplayedOnProductDetailPage()
     {
-        $user = User::firstOrCreate(
-            ['email' => 'akasaka@example.com'],
-            [
-                'name' => '赤坂太郎',
-                'password' => bcrypt('password123'),
-                'address' => '福岡県福岡市中央区赤坂1-2-3',
-                'postal_code' => '123-4567',
-                'building' => '赤坂ビル',
-            ]
-        );
+        $user = User::where('email', 'akasaka@example.com')->first();
         $product = Product::first();
 
         $category1 = Category::create(['name' => 'Category 1']);

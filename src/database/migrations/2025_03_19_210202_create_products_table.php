@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->integer('stock')->default(1);
             $table->string('image')->nullable();
             $table->string('condition', 50);
-            $table->decimal('price', 10, 2);
+            $table->integer('price');
             $table->string('status')->default('available');
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class UserLoginTest extends TestCase
@@ -55,8 +56,11 @@ class UserLoginTest extends TestCase
     /** @test */
     public function user_can_login_with_correct_credentials()
     {
-        $user = User::first();
-
+        $user = User::create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password123'),
+        ]);
         $response = $this->post('/login', [
             'email' => $user->email,
             'password' => 'password123',

@@ -76,8 +76,7 @@ class AuthController extends Controller
         }
 
         if (!$user->hasVerifiedEmail()) {
-            $user->email_verified_at = now();
-            $user->save();
+            $user->markEmailAsVerified();
         }
 
         return redirect('/mypage')->with('message', 'メール認証が完了しました');

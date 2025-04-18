@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('product_id')->constrained('products');
-            $table->string('payment_method');
+            $table->foreignId('payment_method_id')->constrained('payment_methods');
             $table->timestamps();
         });
     }
@@ -29,6 +29,25 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        if (Schema::hasTable('orders')) {
+            Schema::table('orders', function (Blueprint $table) {
+                if (Schema::hasColumn('orders', 'user_id')) {
+                    $table->dropForeign(['user_id']);
+                    $table->dropColumn('user_id');
+                }
+
+                if (Schema::hasColumn('orders', 'product_id')) {
+                    $table->dropForeign(['product_id']);
+                    $table->dropColumn('product_id');
+                }
+
+                if (Schema::hasColumn('orders', 'payment_method_id')) {
+                    $table->dropForeign(['payment_method_id']);
+                    $table->dropColumn('payment_method_id');
+                }
+            });
+
+            Schema::dropIfExists('orders');
+        }
     }
 }

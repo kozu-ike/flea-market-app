@@ -18,18 +18,19 @@
             </div>
 
             <div class="product-purchase">
-                <label class="contact-form__label" for="payment_id">
+                <label class="contact-form__label" for="payment_method">
                     お支払方法
                 </label>
                 <form method="POST" action="{{ route('purchase.updatePayment', $product->id) }}" id="payment-form">
                     @csrf
                     <select class="payment-method__select" name="payment_method" required onchange="this.form.submit()">
                         <option disabled selected>選択してください</option>
-                        <option value="コンビニ支払い" {{ session('payment_method', session('selected_payment')) == 'コンビニ支払い' ? 'selected' : '' }}>コンビニ支払い</option>
-                        <option value="カード支払い" {{ session('payment_method', session('selected_payment')) == 'カード支払い' ? 'selected' : '' }}>カード支払い</option>
+                        <option value="1" {{ old('payment_method', session('selected_payment')) == 1 ? 'selected' : '' }}>カード支払い</option>
+                        <option value="2" {{ old('payment_method', session('selected_payment')) == 2 ? 'selected' : '' }}>コンビニ支払い</option>
                     </select>
                 </form>
             </div>
+
             <p class="contact-form__error-message">
                 @error('payment_method')
                 {{ $message }}
@@ -64,7 +65,12 @@
                 <label for="product-plan_price_payment-method">
                     <p class="payment-method">お支払方法</p>
                     <p class="payment-method">
-                        {{ session('selected_payment') ? session('selected_payment') : '未選択' }}
+                        @php
+                        $paymentMethod = \App\Models\PaymentMethod::find(session('selected_payment'));
+                        @endphp
+
+                        {{-- 支払い方法が見つかればその名前を表示、なければ「未選択」を表示 --}}
+                        {{ $paymentMethod ? $paymentMethod->name : '未選択' }}
                     </p>
                 </label>
                 <form method="POST" action="{{ route('purchase.process', ['item_id' => $product->id]) }}">

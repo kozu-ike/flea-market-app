@@ -5,6 +5,9 @@ namespace Tests\Feature;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Category;
+use App\Models\PaymentMethod;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
@@ -19,47 +22,41 @@ class ProductListTest extends TestCase
 
         Artisan::call('db:seed', ['--class' => 'UserSeeder']);
         Artisan::call('db:seed', ['--class' => 'CategorySeeder']);
+        Artisan::call('db:seed', ['--class' => 'ProductSeeder']);
+        Artisan::call('db:seed', ['--class' => 'PaymentMethodSeeder']);
     }
 
     /** @test */
     public function all_products_are_displayed_on_product_page()
     {
-        $user = \App\Models\User::factory()->create();
-        $category = \App\Models\Category::factory()->create();
+        $user = User::where('email', 'akasaka@example.com')->first();
+        $category = Category::first();
 
-        $product1 = \App\Models\Product::factory()->create([
-            'user_id' => $user->id,
-            'name' => 'Product 1',
-            'price' => 1000,
-        ]);
-        $product1->categories()->attach($category->id);
-        $product2 = \App\Models\Product::factory()->create([
-            'user_id' => $user->id,
-            'name' => 'Product 2',
-            'price' => 2000,
-        ]);
-        $product2->categories()->attach($category->id);
+        $product1 = Product::where('name', 'ショルダーバッグ')->first();
+        $product2 = Product::where('name', '腕時計')->first();
+
+        $product1->categories()->sync([$category->id]);
+        $product2->categories()->sync([$category->id]);
 
         $response = $this->get('/');
-        $response->assertSee('Product 1');
-        $response->assertSee('Product 2');
+        $response->assertSee($product1->name);
+        $response->assertSee($product2->name);
     }
-
 
     /** @test */
     public function purchased_product_is_displayed_as_sold()
     {
-        $product = Product::factory()->create(['name' => 'Product 1', 'price' => 1000, 'status' => 'available']);
-        $user = User::factory()->create();
-
+        $user = User::where('email', 'akasaka@example.com')->first();
+        $paymentMethod = PaymentMethod::where('name', 'カード支払い')->first();
+        $product = Product::where('name', 'ショルダーバッグ')->first();
+        $category = Category::where('name', 'ファッション')->first();
+        $product->categories()->attach($category->id);
         $order = Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'payment_method' => 'カード支払い',
+            'payment_method_id' => $paymentMethod->id,
         ]);
-
         $product->update(['status' => 'sold']);
-
         $response = $this->get('/');
         $response->assertSee($product->name);
         $response->assertSee('Sold');
@@ -68,8 +65,8 @@ class ProductListTest extends TestCase
     /** @test */
     public function products_user_has_listed_are_not_displayed_for_the_user()
     {
-        $user = User::factory()->create();
-        $product = Product::factory()->create(['user_id' => $user->id]);
+        $user = User::where('email', 'akasaka@example.com')->first();
+        $product = Product::where('user_id', $user->id)->first();
 
         $response = $this->actingAs($user)->get('/');
         $response->assertDontSee($product->name);
