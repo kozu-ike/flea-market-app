@@ -81,7 +81,7 @@ class ProductPurchaseTest extends TestCase
         $order = Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'payment_method_id' => $paymentMethod->id,
+            'payment_methods_id' => $paymentMethod->id,
         ]);
 
         $response = $this->get(route('mypage', ['tab' => 'buy']));
@@ -90,7 +90,7 @@ class ProductPurchaseTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'payment_method_id' => $paymentMethod->id,
+            'payment_methods_id' => $paymentMethod->id,
         ]);
     }
 
@@ -123,7 +123,7 @@ class ProductPurchaseTest extends TestCase
         $order = Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'payment_method_id' => $paymentMethod->id,
+            'payment_methods_id' => $paymentMethod->id,
         ]);
 
         $this->assertNotNull($order);

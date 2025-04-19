@@ -54,7 +54,7 @@ class ProductListTest extends TestCase
         $order = Order::create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'payment_method_id' => $paymentMethod->id,
+            'payment_methods_id' => $paymentMethod->id,
         ]);
         $product->update(['status' => 'sold']);
         $response = $this->get('/');

@@ -56,7 +56,7 @@ class UserProfileTest extends TestCase
         $this->assertNotNull($otherProduct, '他のユーザーの商品が作成されていません');
 
         $payment = PaymentMethod::create(['name' => 'カード支払い']);
-        $user->purchases()->attach($otherProduct->id, ['payment_method_id' => $payment->id]);
+        $user->purchases()->attach($otherProduct->id, ['payment_methods_id' => $payment->id]);
 
         $this->actingAs($user);
 

@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('product_id')->constrained('products');
-            $table->foreignId('payment_method_id')->constrained('payment_methods');
+            $table->foreignId('payment_methods_id')->constrained('payment_methods');
             $table->timestamps();
         });
     }
@@ -41,9 +41,9 @@ class CreateOrdersTable extends Migration
                     $table->dropColumn('product_id');
                 }
 
-                if (Schema::hasColumn('orders', 'payment_method_id')) {
-                    $table->dropForeign(['payment_method_id']);
-                    $table->dropColumn('payment_method_id');
+                if (Schema::hasColumn('orders', 'payment_methods_id')) {
+                    $table->dropForeign(['payment_methods_id']);
+                    $table->dropColumn('payment_methods_id');
                 }
             });
 
