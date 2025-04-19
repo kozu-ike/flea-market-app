@@ -18,11 +18,11 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/products/search', [ProductController::class, 'search']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('email/verify', [AuthController::class, 'verify'])->name('verification.notice');
-    Route::get('email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
-    Route::post('email/resend', [AuthController::class, 'resendVerification'])->name('verification.resend');
-});
+
+Route::get('email/verify', [AuthController::class, 'verify'])->name('verification.notice');
+Route::get('email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+Route::post('email/resend', [AuthController::class, 'resendVerification'])->name('verification.resend');
+
 Route::middleware('auth')->group(function () {
     Route::get('/mypage', [UserController::class, 'mypage'])->name('mypage');
     Route::get('/mypage/profile', [UserController::class, 'setupProfile'])->name('profile.setup');

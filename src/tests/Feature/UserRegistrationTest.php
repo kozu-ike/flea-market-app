@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
-use Faker\Factory as Faker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use App\Models\User;
+use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Faker\Factory as Faker;
+use Tests\TestCase;
 
 class UserRegistrationTest extends TestCase
 {
@@ -87,6 +89,8 @@ class UserRegistrationTest extends TestCase
         $faker = Faker::create();
         $email = $faker->unique()->safeEmail;
 
+        Mail::fake();
+
         $response = $this->post('/register', [
             'name' => '赤坂太郎',
             'email' => $email,
@@ -103,5 +107,14 @@ class UserRegistrationTest extends TestCase
         $this->assertAuthenticated();
 
         $response->assertRedirect(route('profile.setup'));
+
+        $this->assertDatabaseHas('users', [
+            'email' => $email,
+            'email_verified_at' => null,
+        ]);
+
+        Mail::assertSent(VerifyEmail::class, function ($mail) use ($email) {
+            return $mail->hasTo($email);
+        });
     }
 }

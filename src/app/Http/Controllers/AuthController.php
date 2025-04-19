@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
@@ -18,6 +19,7 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
+
     public function showRegistrationForm()
     {
         if (Auth::check()) {
@@ -25,6 +27,7 @@ class AuthController extends Controller
         }
         return view('auth.register');
     }
+
     public function register(RegisterRequest $request)
     {
         $validated = $request->validated();
@@ -36,6 +39,14 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+
+        try {
+            $this->sendVerificationEmail($user);
+            return redirect()->route('verification.notice');
+        } catch (\Exception $e) {
+            Log::error("メール送信に失敗しました: " . $e->getMessage());
+        }
+
         return redirect('/mypage/profile');
     }
 
@@ -47,7 +58,7 @@ class AuthController extends Controller
             return redirect('/mypage')->with('success', 'ログインしました');
         }
 
-        return back()->withErrors(['email' => ' ログイン情報が登録されていません。']);
+        return back()->withErrors(['email' => 'ログイン情報が登録されていません。']);
     }
 
     public function logout()
@@ -61,10 +72,18 @@ class AuthController extends Controller
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(60),
-            ['id' => $user->id]
+            [
+                'id' => $user->id,
+                'hash' => sha1($user->getEmailForVerification()),
+            ]
         );
 
         Mail::to($user->email)->send(new VerifyEmail($user, $verificationUrl));
+    }
+
+    public function verify()
+    {
+        return view('auth.verify');
     }
 
     public function verifyEmail($id, $hash)
@@ -77,8 +96,21 @@ class AuthController extends Controller
 
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
+            event(new Verified($user));
         }
 
         return redirect('/mypage')->with('message', 'メール認証が完了しました');
+    }
+
+    public function resendVerification()
+    {
+        $user = Auth::user();
+
+        if ($user && !$user->hasVerifiedEmail()) {
+            $this->sendVerificationEmail($user);
+            return back()->with('resent', true);
+        }
+
+        return redirect('/mypage')->with('message', 'すでにメールが認証されています');
     }
 }

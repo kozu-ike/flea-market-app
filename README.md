@@ -51,14 +51,39 @@ php artisan storage:link
 ## メール認証について
 
 - ユーザー登録後、メールアドレスの確認が必須です。
-- メール認証が完了していない場合、ログインや一部機能が制限されます。
+- メール認証が完了していない場合、ログインや一部機能が制限されます。（例：マイページ遷移など）。
+
+- 認証メール内のリンクは発行から60分間のみ有効です。
+
+## メール送信の確認方法（開発環境）
+Mailtrap（開発用メールボックス）
+開発環境でのメール送信確認には Mailtrap を使用しています。
+
+- 実際のメール送信は行われず、安全に検証できます。
+
+- Mailtrap の UI 上で送信されたメールを確認可能です。
+
+- Mailtrap の設定方法
+.env ファイルに以下を追記・修正してください：
+env
+```bash
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_username   # あなたの Mailtrap アカウントのユーザー名
+MAIL_PASSWORD=your_mailtrap_password   # あなたの Mailtrap アカウントのパスワード
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=no-reply@example.com  # メール送信元アドレス
+MAIL_FROM_NAME="Flea Market App"
+
+```
+- MAIL_USERNAME と MAIL_PASSWORD は Mailtrap ダッシュボード の SMTP Settings に記載されています。使用する inbox に合わせてコピーしてください。
+ログの設定
+
+本プロジェクトでは、メール送信に失敗した場合にログを記録するように設定しています。storage/logs ディレクトリ内にログが保存されます。特にメール送信エラーに関しては以下のように記録されます
+
 
 ## 使用ツール
-
-### Mailhog（ローカル用）
-
-- ローカルでのメール送信確認には MailHog を使用しています。
-- MailHog UI: http://localhost:8025
 
 ### Mailtrap（オプション）
 
@@ -77,3 +102,9 @@ php artisan storage:link
 ## URL
 - 開発環境：http://localhost/
 - phpMyAdmin:http://localhost:8080/
+
+## テスト環境設定
+
+本プロジェクトでは、テスト環境をセットアップするためにいくつかの設定が必要です。詳細については [テスト環境設定ガイド](docs/test-setup.md) をご覧ください。
+
+
