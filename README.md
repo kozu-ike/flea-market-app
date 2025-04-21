@@ -2,35 +2,52 @@
 
 ## 環境構築
 **Dockerビルド**
-1. `git clone git@github.com:kozu-ike/flea-market-app.git`
+1.
+``` bash
+git clone git@github.com:kozu-ike/flea-market-app.git
+```
+
 2. DockerDesktopアプリを立ち上げる
-3. `docker-compose up -d --build`
+``` bash
+docker-compose up -d --build
+```
 
 **Laravel環境構築**
-1. `docker-compose exec php bash`
-2. `composer install`
-3. 「.env.example」ファイルを 「.env」ファイルに命名を変更。または、新しく.envファイルを作成
-`cp .env.example .env`
-4. .envに以下の環境変数を追加
-``` text
+3. `docker-compose exec php bash`
+4. `composer install`
+5. 「.env.example」ファイルを 「.env」ファイルに命名を変更。
+    または、新しく.envファイルを作成
+``` bash
+cp .env.example .env
+```
+6. .envに以下の環境変数を追加
+```bash
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
+
+STRIPE_SECRET=your_stripe_secret_key   # あなたのStripeのAPIキー
 ```
-5. アプリケーションキーの作成
+
+- コマンドを実行してキャッシュをクリアし、設定が反映されるようにする。
+``` bash
+php artisan config:cache
+```
+
+7. アプリケーションキーの作成
 ``` bash
 php artisan key:generate
 ```
 
-6. マイグレーションの実行
+8. マイグレーションの実行
 ``` bash
 php artisan migrate
 ```
 
-7. シーディングの実行
+9. シーディングの実行
 ``` bash
 php artisan db:seed
 ```
@@ -65,7 +82,7 @@ Mailtrap（開発用メールボックス）
 
 - Mailtrap の設定方法
 .env ファイルに以下を追記・修正してください：
-env
+
 ```bash
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.mailtrap.io
@@ -78,10 +95,7 @@ MAIL_FROM_NAME="Flea Market App"
 
 ```
 - MAIL_USERNAME と MAIL_PASSWORD は Mailtrap ダッシュボード の SMTP Settings に記載されています。使用する inbox に合わせてコピーしてください。
-ログの設定
-
-本プロジェクトでは、メール送信に失敗した場合にログを記録するように設定しています。storage/logs ディレクトリ内にログが保存されます。特にメール送信エラーに関しては以下のように記録されます
-
+メール送信エラーは `storage/logs/laravel.log` に記録されます。
 
 ## 使用ツール
 
@@ -96,6 +110,10 @@ MAIL_FROM_NAME="Flea Market App"
 - Laravel 8.83.29
 - MariaDB 10.11.6
 
+## 外部サービス
+- Stripe：クレジットカード決済機能
+- Mailtrap：開発・テスト用のメール送信確認
+
 ## ER図
 ![alt](erd.png)
 
@@ -106,5 +124,3 @@ MAIL_FROM_NAME="Flea Market App"
 ## テスト環境設定
 
 本プロジェクトでは、テスト環境をセットアップするためにいくつかの設定が必要です。詳細については [テスト環境設定ガイド](docs/test-setup.md) をご覧ください。
-
-
