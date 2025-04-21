@@ -35,7 +35,6 @@ class ExhibitionController extends Controller
         $product->brand = isset($validated['brand']) ? $validated['brand'] : null;
         $product->description = $validated['description'];
         $product->condition = $validated['condition'];
-        $product->stock = $validated['stock'];
         $product->user_id = auth()->id();
 
         if ($request->hasFile('image')) {
