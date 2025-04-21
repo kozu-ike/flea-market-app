@@ -2,6 +2,7 @@
 
 ## 環境構築
 **Dockerビルド**
+
 1.
 ``` bash
 git clone git@github.com:kozu-ike/flea-market-app.git
