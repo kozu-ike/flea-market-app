@@ -86,16 +86,19 @@ class PurchaseController extends Controller
 
         $product->decrement('stock');
 
+        if ($product->stock == 0) {
+            $product->update([
+                'status' => 'sold',
+            ]);
+        }
 
         Order::create([
             'user_id' => Auth::id(),
             'product_id' => $product->id,
-            'payment_method_id' => $paymentMethod->id,
+            'payment_methods_id' => $paymentMethod->id,
         ]);
 
-
         Stripe::setApiKey(env('STRIPE_SECRET'));
-
 
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -112,18 +115,23 @@ class PurchaseController extends Controller
                 ],
             ],
             'mode' => 'payment',
-            'success_url' => route('purchase.success'),
+            'success_url' => route('mypage'),
             'cancel_url' => route('purchase.cancel'),
         ]);
 
         return redirect($session->url);
+    }
+    public function success()
+    {
+        $order = Order::where('user_id', Auth::id())->latest()->first();
 
-        if ($product->stock == 0) {
-            $product->update([
-                'status' => 'sold',
-            ]);
+        if ($order) {
+            return redirect()->route('mypage')->with('success', '購入が完了しました');
         }
-
-        return redirect()->route('mypage')->with('success', '購入が完了しました');
+        return redirect()->route('mypage')->with('error', '購入処理に失敗しました');
+    }
+    public function cancel()
+    {
+        return redirect()->route('mypage')->with('error', '購入がキャンセルされました');
     }
 }
