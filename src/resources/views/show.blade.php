@@ -54,26 +54,26 @@
                 <ul class="comment-list">
                     @foreach ($product->comments as $comment)
                     <li>
-                        <strong>{{ $comment->user->name }}</strong>: {{ e($comment->content) }}
+                        <strong>{{ $comment->user->name e }}</strong>: {{ e($comment->content) }}
                     </li>
                     @endforeach
                 </ul>
 
-                @auth
-                <form action="{{ route('comments.store', $product->id) }}" method="POST">
-                    @csrf
-                    <textarea name="content" required maxlength="255" placeholder="コメントを入力してください"></textarea>
-                    <button type="submit">コメントを送信する</button>
-
-                    @if(session('message'))
-                    <div class="alert alert-info">
-                        {{ session('message') }}
-                    </div>
-                    @endif
-                </form>
-                @endauth
             </div>
+            @auth
+            <form action="{{ route('comments.store', $product->id) }}" method="POST">
+                @csrf
+                <textarea name="content" required maxlength="255" placeholder="コメントを入力してください"></textarea>
+                <button type="submit">コメントを送信する</button>
+                <div class="form__error">
+                    @error('content')
+                    <span class="error-message">{{ $message }}</span> @enderror
+                </div>
+                @endif
+            </form>
+            @endauth
         </div>
     </div>
+</div>
 </div>
 @endsection
