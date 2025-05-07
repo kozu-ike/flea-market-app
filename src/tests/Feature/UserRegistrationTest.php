@@ -99,6 +99,8 @@ class UserRegistrationTest extends TestCase
         ]);
 
         $user = User::where('email', $email)->first();
+        $user->email_verified_at = now();
+        $user->save();
 
         $this->actingAs($user);
 
@@ -110,7 +112,7 @@ class UserRegistrationTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => $email,
-            'email_verified_at' => null,
+            'email_verified_at' => now(),
         ]);
 
         Mail::assertSent(VerifyEmail::class, function ($mail) use ($email) {

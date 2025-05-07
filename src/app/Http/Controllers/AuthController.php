@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         try {
             $this->sendVerificationEmail($user);
-            return redirect()->route('verification.notice');
+            return redirect()->route('profile.setup');
         } catch (\Exception $e) {
             Log::error("メール送信に失敗しました: " . $e->getMessage());
         }

@@ -78,7 +78,7 @@ class ProductCommentTest extends TestCase
         $response->assertSessionHasErrors('content');
     }
 
-    /**メントが255字以上の場合、バリデーションメッセージが表示される
+    /**
      *
      * @return void
      */

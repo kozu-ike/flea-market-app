@@ -5,27 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
-use Faker\Provider\ar_EG\Address;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    protected $user;
 
     public function __construct()
     {
         $this->middleware('auth');
+        $this->user = auth()->user();
     }
 
     public function setupProfile()
     {
-        $profile = auth()->user();
-        return view('profile', compact('profile'));
+        return view('profile', ['profile' => $this->user]);
     }
 
     public function mypage(Request $request)
     {
-        $user = auth()->user();
-
         $noSellItems = false;
         $noBuyItems = false;
         $products = [];
@@ -33,19 +31,17 @@ class UserController extends Controller
         $keyword = $request->keyword;
 
         if ($request->tab == 'sell') {
-            $products = $user->products;
+            $products = $this->user->products;
 
             if ($keyword) {
                 $products = $products->where('name', 'like', '%' . $keyword . '%');
             }
 
-            $purchases = [];
-
             if ($products->isEmpty()) {
                 $noSellItems = true;
             }
         } elseif ($request->tab == 'buy') {
-            $purchases = $user->orders()->with('product')->get();
+            $purchases = $this->user->orders()->with('product')->get();
 
             if ($keyword) {
                 $purchases = $purchases->filter(function ($purchase) use ($keyword) {
@@ -53,22 +49,17 @@ class UserController extends Controller
                 });
             }
 
-            $products = [];
-
             if ($purchases->isEmpty()) {
                 $noBuyItems = true;
             }
         }
 
-        return view('mypage', compact('user', 'products', 'purchases', 'noSellItems', 'noBuyItems', 'keyword'));
+        return view('mypage', compact('products', 'purchases', 'noSellItems', 'noBuyItems', 'keyword'));
     }
-
-
 
     public function updateProfile(AddressRequest $addressRequest, ProfileRequest $profileRequest)
     {
         $validatedAddress = $addressRequest->validated();
-        $user = auth()->user();
 
         $updateData = [
             'name'        => $validatedAddress['name'],
@@ -78,31 +69,29 @@ class UserController extends Controller
         ];
 
         if ($profileRequest->hasFile('profile_image')) {
-            if ($user->profile_image) {
-                Storage::disk('public')->delete($user->profile_image);
+            if ($this->user->profile_image) {
+                Storage::disk('public')->delete($this->user->profile_image);
             }
 
             $path = $profileRequest->file('profile_image')->store('profile_images', 'public');
             $updateData['profile_image'] = $path;
         }
 
-        $user->update($updateData);
+        $this->user->update($updateData);
 
         return redirect()->route('mypage')->with('success', 'プロフィールが更新されました');
     }
 
-
     public function showPurchasedItems()
     {
-        $user = auth()->user();
-        $purchases = $user->purchases()->with('product')->get();
-
-        return view('mypage', compact('user', 'purchases'));
+        $purchases = $this->user->purchases()->with('product')->get();
+        return view('mypage', ['purchases' => $purchases]);
     }
 
     public function showSoldItems()
     {
-        $soldItems = auth()->user()->products;
+        $soldItems = $this->user->products;
         return view('sold', compact('soldItems'));
     }
 }
+
